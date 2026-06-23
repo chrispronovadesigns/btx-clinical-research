@@ -1,0 +1,130 @@
+---
+import { seoConfig } from '@/lib/seo/config';
+import type {
+  SchemaOrganization,
+  SchemaArticle,
+  SchemaService,
+  SchemaProduct,
+  SchemaBreadcrumb,
+  SchemaFAQ,
+  SchemaWebPage,
+  SchemaReview,
+} from '@/lib/seo/schema';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonicalURL?: string;
+  type?: 'website' | 'article';
+  publishedDate?: string;
+  modifiedDate?: string;
+  author?: string;
+  noindex?: boolean;
+  keywords?: string[];
+  schemas?: Array<
+    | SchemaOrganization
+    | SchemaArticle
+    | SchemaService
+    | SchemaProduct
+    | SchemaBreadcrumb
+    | SchemaFAQ
+    | SchemaWebPage
+    | SchemaReview
+  >;
+}
+
+const {
+  title = seoConfig.defaultTitle,
+  description = seoConfig.defaultDescription,
+  image = seoConfig.defaultImage,
+  canonicalURL = Astro.url.href,
+  type = 'website',
+  publishedDate,
+  modifiedDate,
+  author,
+  noindex = false,
+  keywords = [],
+  schemas = [],
+} = Astro.props;
+
+const ogLocale = 'en_US';
+
+// Strip any site-name suffix the page may already include (e.g. "App development | Your Site")
+// so the brand is appended exactly once and titles never double-stamp.
+const baseTitle = title
+  .replace(new RegExp(`\\s*[|\\-—]\\s*${seoConfig.siteName}\\s*$`, 'i'), '')
+  .trim();
+// Don't append the brand again if the title is empty, is the brand itself,
+// or already leads with the brand (e.g. the homepage title).
+const alreadyBranded =
+  baseTitle === '' ||
+  baseTitle === seoConfig.siteName ||
+  new RegExp(`^${seoConfig.siteName}\\b`, 'i').test(baseTitle);
+const fullTitle = alreadyBranded
+  ? baseTitle || seoConfig.siteName
+  : `${baseTitle} | ${seoConfig.siteName}`;
+const absoluteImage = image.startsWith('http') 
+  ? image 
+  : new URL(image, seoConfig.siteUrl).href;
+const absoluteCanonical = canonicalURL.startsWith('http')
+  ? canonicalURL
+  : new URL(canonicalURL, seoConfig.siteUrl).href;
+---
+
+<!-- Primary Meta Tags -->
+<title>{fullTitle}</title>
+<meta name="title" content={fullTitle} />
+<meta name="description" content={description} />
+{author && <meta name="author" content={author} />}
+{keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
+
+<!-- Robots -->
+{noindex ? (
+  <meta name="robots" content="noindex, nofollow" />
+) : (
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+)}
+
+<!-- Canonical URL -->
+<link rel="canonical" href={absoluteCanonical} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={absoluteCanonical} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={absoluteImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content={seoConfig.siteName} />
+<meta property="og:locale" content={ogLocale} />
+{publishedDate && <meta property="article:published_time" content={publishedDate} />}
+{modifiedDate && <meta property="article:modified_time" content={modifiedDate} />}
+{author && <meta property="article:author" content={author} />}
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={absoluteCanonical} />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={absoluteImage} />
+{seoConfig.twitterHandle && <meta name="twitter:site" content={seoConfig.twitterHandle} />}
+{seoConfig.twitterHandle && <meta name="twitter:creator" content={seoConfig.twitterHandle} />}
+
+<!-- Additional Meta Tags -->
+<meta name="language" content="English" />
+<meta name="revisit-after" content="7 days" />
+<meta name="distribution" content="global" />
+<meta name="rating" content="general" />
+
+<!-- Geo Tags for Local Business -->
+<meta name="geo.region" content="US-TX" />
+<meta name="geo.placename" content="Brownsville" />
+<meta name="geo.position" content="25.9017;-97.4975" />
+<meta name="ICBM" content="25.9017, -97.4975" />
+
+<!-- Structured Data / Schema.org -->
+{schemas.map((schema) => (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+))}

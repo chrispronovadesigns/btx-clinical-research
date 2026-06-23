@@ -1,0 +1,113 @@
+---
+import Preheader from '@/components/layout/Preheader.astro';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+import SEOHead from '@/components/seo/SEOHead.astro';
+import { buildOrganizationSchema, buildWebPageSchema } from '@/lib/seo/schema';
+import type {
+  SchemaOrganization,
+  SchemaArticle,
+  SchemaService,
+  SchemaProduct,
+  SchemaBreadcrumb,
+  SchemaFAQ,
+  SchemaWebPage,
+  SchemaReview,
+} from '@/lib/seo/schema';
+import '@/styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article';
+  publishedDate?: string;
+  modifiedDate?: string;
+  author?: string;
+  noindex?: boolean;
+  keywords?: string[];
+  schemas?: Array<
+    | SchemaOrganization
+    | SchemaArticle
+    | SchemaService
+    | SchemaProduct
+    | SchemaBreadcrumb
+    | SchemaFAQ
+    | SchemaWebPage
+    | SchemaReview
+  >;
+}
+
+const {
+  title,
+  description,
+  image,
+  type,
+  publishedDate,
+  modifiedDate,
+  author,
+  noindex,
+  keywords = [],
+  schemas = [],
+} = Astro.props;
+
+const canonicalBase = 'https://btxclinicalresearch.com';
+const canonicalUrl = `${canonicalBase}${Astro.url.pathname}`;
+
+const defaultSchemas = [
+  buildOrganizationSchema(),
+  buildWebPageSchema({
+    name: title,
+    description,
+    url: Astro.url.href,
+  }),
+];
+
+const allSchemas = [...defaultSchemas, ...schemas];
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/images/btx-logo-square.png" />
+    <meta name="theme-color" content="#0B4F6C" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="BTX Clinical Research" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <SEOHead
+      title={title}
+      description={description}
+      image={image}
+      canonicalURL={canonicalUrl}
+      type={type}
+      publishedDate={publishedDate}
+      modifiedDate={modifiedDate}
+      author={author}
+      noindex={noindex}
+      keywords={keywords}
+      lang="en"
+      schemas={allSchemas}
+    />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <slot name="head" />
+  </head>
+  <body class="bg-brand-primary text-brand-text">
+    <Preheader />
+    <Header />
+    <main id="main-content" class="pt-20 md:pt-[120px]">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Exec(python3)",
+      "Exec(npm run)",
+      "Exec(node)",
+      "Exec(git checkout)",
+      "Exec(git status)",
+      "Exec(rm)",
+      "Exec(npx astro)",
+      "Exec(git log)",
+      "Exec(git show)",
+      "Exec(git diff)",
+      "Exec(mkdir)"
+    ]
+  }
+}

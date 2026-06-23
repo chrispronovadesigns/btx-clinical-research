@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /_examples/
+Disallow: /api/
+
+Sitemap: https://btxclinicalresearch.com/sitemap-index.xml

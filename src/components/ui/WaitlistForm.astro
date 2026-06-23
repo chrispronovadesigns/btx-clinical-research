@@ -1,0 +1,170 @@
+---
+interface Props {
+  source: string;
+  nameLabel?: string;
+  emailLabel?: string;
+  submitLabel?: string;
+  successHeading?: string;
+  successSubheading?: string;
+  errorGeneric?: string;
+  errorRequired?: string;
+  errorBot?: string;
+  turnstileSiteKey?: string;
+}
+
+const {
+  source,
+  nameLabel = 'Name',
+  emailLabel = 'Email address',
+  submitLabel = 'Join the waitlist',
+  successHeading = "You're on the list",
+  successSubheading = "We'll email you as soon as early access is available.",
+  errorGeneric = 'Something went wrong. Please try again.',
+  errorRequired = 'Please fill in all required fields.',
+  errorBot = 'Please complete the security verification.',
+  turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY,
+} = Astro.props;
+
+const formId = `waitlist-form-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<div class="waitlist-form-wrapper" data-source={source} data-form-id={formId}>
+  <form
+    id={formId}
+    class="space-y-4"
+    novalidate
+  >
+    <!-- Honeypot field -->
+    <div class="absolute opacity-0 top-0 left-0 h-0 w-0 -z-10 overflow-hidden" aria-hidden="true">
+      <label>Do not fill this out
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+      </label>
+    </div>
+    <!-- Anti-spam timestamp -->
+    <input type="hidden" name="_form_loaded" value="" />
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-brand-muted mb-1.5" for={`${formId}-name`}>{nameLabel}</label>
+        <input type="text" id={`${formId}-name`} name="name" class="input" placeholder={nameLabel} required maxlength="100" autocomplete="name" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-brand-muted mb-1.5" for={`${formId}-email`}>{emailLabel}</label>
+        <input type="email" id={`${formId}-email`} name="email" class="input" placeholder={emailLabel} required maxlength="254" autocomplete="email" />
+      </div>
+    </div>
+
+    {turnstileSiteKey && (
+      <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="dark"></div>
+    )}
+
+    <div class="waitlist-error hidden text-sm text-red-400 rounded-lg bg-red-400/10 px-4 py-3">
+      {errorGeneric}
+    </div>
+
+    <button type="submit" class="btn-big w-full justify-center">
+      <span class="waitlist-submit-label">{submitLabel}</span>
+      <svg class="waitlist-submit-arrow w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+      </svg>
+      <svg class="waitlist-submit-spinner w-4 h-4 hidden animate-spin" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+      </svg>
+    </button>
+  </form>
+
+  <!-- Success state -->
+  <div class="waitlist-success hidden text-center py-8">
+    <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-brand-accent/20 flex items-center justify-center">
+      <svg class="w-8 h-8 text-brand-azure" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+      </svg>
+    </div>
+    <h3 class="text-2xl font-bold font-heading mb-3">{successHeading}</h3>
+    <p class="text-brand-muted">{successSubheading}</p>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLDivElement>('.waitlist-form-wrapper').forEach((wrapper) => {
+    const formId = wrapper.dataset.formId;
+    const source = wrapper.dataset.source;
+    if (!formId || !source) return;
+
+    const form = wrapper.querySelector<HTMLFormElement>('form');
+    const formLoaded = wrapper.querySelector<HTMLInputElement>('input[name="_form_loaded"]');
+    const submitBtn = wrapper.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const submitLabel = wrapper.querySelector<HTMLSpanElement>('.waitlist-submit-label');
+    const submitArrow = wrapper.querySelector<SVGSVGElement>('.waitlist-submit-arrow');
+    const submitSpinner = wrapper.querySelector<SVGSVGElement>('.waitlist-submit-spinner');
+    const errorBox = wrapper.querySelector<HTMLDivElement>('.waitlist-error');
+    const successBox = wrapper.querySelector<HTMLDivElement>('.waitlist-success');
+
+    if (!form || !submitBtn || !submitLabel || !submitArrow || !submitSpinner || !errorBox || !successBox) return;
+
+    if (formLoaded) {
+      formLoaded.value = Date.now().toString();
+    }
+
+    const originalLabel = submitLabel.textContent || 'Join the waitlist';
+
+    const errorMessages = {
+      required: wrapper.closest('[data-error-required]')?.getAttribute('data-error-required') || 'Please fill in all required fields.',
+      bot: wrapper.closest('[data-error-bot]')?.getAttribute('data-error-bot') || 'Please complete the security verification.',
+      generic: wrapper.closest('[data-error-generic]')?.getAttribute('data-error-generic') || 'Something went wrong. Please try again.',
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorBox.classList.add('hidden');
+
+      const data = Object.fromEntries(new FormData(form));
+      const name = (data.name as string)?.trim();
+      const email = (data.email as string)?.trim();
+
+      if (!name || !email) {
+        errorBox.textContent = errorMessages.required;
+        errorBox.classList.remove('hidden');
+        return;
+      }
+
+      const turnstileInput = form.querySelector('[name="cf-turnstile-response"]') as HTMLInputElement | null;
+      const turnstileToken = turnstileInput?.value;
+      if (turnstileInput && !turnstileToken) {
+        errorBox.textContent = errorMessages.bot;
+        errorBox.classList.remove('hidden');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitLabel.textContent = 'Sending...';
+      submitArrow.classList.add('hidden');
+      submitSpinner.classList.remove('hidden');
+
+      try {
+        const res = await fetch('/api/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...data, source, 'cf-turnstile-response': turnstileToken }),
+        });
+
+        const result = await res.json();
+
+        if (!res.ok || !result.ok) {
+          throw new Error(result.error || 'Request failed');
+        }
+
+        form.classList.add('hidden');
+        successBox.classList.remove('hidden');
+      } catch (_) {
+        errorBox.textContent = errorMessages.generic;
+        errorBox.classList.remove('hidden');
+        submitBtn.disabled = false;
+        submitLabel.textContent = originalLabel;
+        submitArrow.classList.remove('hidden');
+        submitSpinner.classList.add('hidden');
+      }
+    });
+  });
+</script>

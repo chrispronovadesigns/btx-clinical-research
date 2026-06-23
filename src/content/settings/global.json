@@ -1,0 +1,24 @@
+{
+  "siteName": "BTX Clinical Research",
+  "tagline": "Innovation & Care in Clinical Research",
+  "contact": {
+    "email": "info@btxclinicalresearch.com",
+    "phone": "(956) 280-5310",
+    "address": "704 Paredes Line Rd, Ste F3",
+    "city": "Brownsville",
+    "state": "TX"
+  },
+  "social": {
+    "linkedin": "",
+    "facebook": "",
+    "instagram": "",
+    "twitter": "",
+    "youtube": ""
+  },
+  "defaultSeo": {
+    "metaTitle": "BTX Clinical Research — Innovation & Care",
+    "metaDescription": "BTX Clinical Research is a clinical research organization and site based in Brownsville, Texas, providing reliable management of clinical trials.",
+    "ogImage": "/images/btx-building.jpg"
+  },
+  "googleAnalyticsId": ""
+}
