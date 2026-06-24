@@ -2,7 +2,7 @@
 
 **Last updated:** 2026-06-24 by Devin
 **Convo thread:** /Users/migliorini-macbook/.local/share/devin/cli/summaries/history_25d290c72bc74fbb.md
-**Git HEAD:** (local changes not yet pushed)
+**Git HEAD:** a5c2be0
 
 ---
 
@@ -50,7 +50,7 @@ An English-only, single-page Astro website for BTX Clinical Research, a clinical
 - `npm run test:all` passes.
 - GitHub repo: `https://github.com/chrispronovadesigns/btx-clinical-research`
 - Vercel project: `christopher-a-migliorinis-projects/btx-clinical-research`
-- **Deployment status:** Local changes are ready to push. The Vercel project is linked to the GitHub `main` branch and will auto-deploy on push.
+- Production deployment live: `https://btx-clinical-research-9snb83oor.vercel.app` (GitHub-triggered build of `a5c2be0`).
 - `btxclinicalresearch.com` has been added to the Vercel project as a custom domain but DNS must still be configured/verified.
 
 ---
