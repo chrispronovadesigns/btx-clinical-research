@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import ContactForm from '@/components/ui/ContactForm.astro';
 import { site } from '@/data/site';
 
 const title = 'BTX Clinical Research — Innovation & Care';
@@ -25,23 +24,23 @@ const values = [
 ];
 
 const team = [
-  { name: 'Andre Rosas, MD', role: 'Co-owner / Medical Director', image: '/images/team-andre.jpg' },
-  { name: 'Rosa Rosas, MD', role: 'CEO / Founder', image: '/images/team-icon.png' },
-  { name: 'Etienne Rosas, PhD', role: 'Research & Strategy', image: '/images/team-etienne.png' },
-  { name: 'Jared Parkin', role: 'Clinical Research', image: '/images/team-icon.png' },
+  { name: 'Andre Rosas, MD', role: 'Co-owner/Medical director', image: '/images/team-andre.jpg' },
+  { name: 'Rosa Rosas, MD', role: 'CEO/Founder', image: '/images/team-icon.png' },
+  { name: 'Etienne Rosas, PhD', role: '', image: '/images/team-etienne.png' },
+  { name: 'Jared Parkin', role: '', image: '/images/team-icon.png' },
   { name: 'Alejandro Reyes, MSHS', role: 'Care Coordinator', image: '/images/team-alejandro.jpg' },
 ];
 
 const capabilities = [
-  { title: 'Office', icon: 'fa-building', description: '1,650 square foot office with four examination rooms and secured WiFi.' },
-  { title: 'Lounge', icon: 'fa-coffee', description: 'Spacious lounge area with amenities for patients and visitors.' },
-  { title: 'Lab', icon: 'fa-atom', description: 'Fully equipped on-site laboratory for sample processing.' },
-  { title: 'Storage', icon: 'fa-store', description: 'Pharmacy-grade refrigerator and freezer for medication and samples.' },
-  { title: 'Meeting', icon: 'fa-comments', description: 'Conference room for team meetings and sponsor visits.' },
-  { title: 'Vitals', icon: 'fa-heartbeat', description: 'Calibrated vital signs equipment for accurate assessments.' },
-  { title: 'Security', icon: 'fa-lock', description: 'Secured medication storage area with controlled access.' },
-  { title: 'Station', icon: 'fa-tablet-alt', description: 'Clinical coordinator workstation for study management.' },
-  { title: 'ECG', icon: 'fa-heart', description: 'AED and 12-lead ECG equipment available on-site.' },
+  { title: 'Office', icon: 'far fa-building', description: '1,650 Square foot office with four examination rooms with secured WiFi' },
+  { title: 'Lounge', icon: 'far fa-coffee', description: 'Spacious Lounge Area with amenities' },
+  { title: 'Lab', icon: 'far fa-atom', description: 'Fully equipped on-site laboratory' },
+  { title: 'Storage', icon: 'far fa-store', description: 'Pharmacy-grade refrigerator and freezer' },
+  { title: 'Meeting', icon: 'far fa-comments', description: 'Conference Room' },
+  { title: 'Vitals', icon: 'far fa-heartbeat', description: 'Calibrated Vital signs equipment' },
+  { title: 'Security', icon: 'far fa-lock', description: 'Secured medication storage area' },
+  { title: 'Station', icon: 'far fa-tablet-alt', description: 'Clinical coordinator workstation' },
+  { title: 'ECG', icon: 'far fa-heart', description: 'AED/12 lead ECG' },
 ];
 ---
 
@@ -107,15 +106,12 @@ const capabilities = [
     <div class="container">
       <div class="text-center mb-12">
         <h2 class="text-headline mb-4">Our Core Values</h2>
-        <p class="text-lg text-brand-secondary max-w-2xl mx-auto">
-          Our values shape how we conduct research, treat patients, and partner with sponsors.
-        </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {values.map((value) => (
-          <div class="card text-center">
-            <div class="w-14 h-14 mx-auto mb-5 rounded-full bg-brand-accent/10 flex items-center justify-center text-brand-accent text-2xl">
+          <div class="text-center">
+            <div class="w-14 h-14 mx-auto mb-5 rounded-xl bg-brand-primary flex items-center justify-center text-white text-2xl">
               <i class={`fas ${value.icon}`} aria-hidden="true"></i>
             </div>
             <h3 class="text-xl font-semibold text-brand-heading mb-3">{value.title}</h3>
@@ -131,9 +127,6 @@ const capabilities = [
     <div class="container">
       <div class="text-center mb-12">
         <h2 class="text-headline mb-4">Our Research Team</h2>
-        <p class="text-lg text-brand-secondary max-w-2xl mx-auto">
-          Experienced medical researchers and coordinators dedicated to advancing clinical research in the Rio Grande Valley.
-        </p>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -147,7 +140,7 @@ const capabilities = [
               />
             </div>
             <h3 class="text-xl font-semibold text-brand-heading">{member.name}</h3>
-            <p class="text-brand-secondary font-medium">{member.role}</p>
+            {member.role && <p class="text-brand-secondary font-medium">{member.role}</p>}
           </div>
         ))}
       </div>
@@ -163,9 +156,6 @@ const capabilities = [
     <div class="container">
       <div class="text-center mb-12">
         <h2 class="text-headline mb-4">Our Site Capabilities</h2>
-        <p class="text-lg text-brand-secondary max-w-2xl mx-auto">
-          A facility built for clinical research
-        </p>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -173,35 +163,19 @@ const capabilities = [
           <div class="group [perspective:1000px]">
             <div class="relative h-56 transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
               <!-- Front -->
-              <div class="absolute inset-0 backface-hidden bg-white rounded-lg shadow-card flex flex-col items-center justify-center p-6 text-center border border-brand-border">
-                <div class="w-14 h-14 mb-4 rounded-full bg-brand-accent/10 flex items-center justify-center text-brand-accent text-2xl">
-                  <i class={`${cap.icon === 'fa-building' || cap.icon === 'fa-comments' ? 'far' : 'fas'} ${cap.icon}`} aria-hidden="true"></i>
+              <div class="absolute inset-0 backface-hidden bg-brand-primary rounded-lg flex flex-col items-center justify-center p-6 text-center">
+                <div class="w-14 h-14 mb-4 rounded-full bg-white/10 flex items-center justify-center text-white text-2xl">
+                  <i class={cap.icon} aria-hidden="true"></i>
                 </div>
-                <h3 class="text-xl font-semibold text-brand-heading">{cap.title}</h3>
+                <h3 class="text-xl font-semibold text-white">{cap.title}</h3>
               </div>
               <!-- Back -->
-              <div class="absolute inset-0 backface-hidden [transform:rotateY(180deg)] bg-brand-primary rounded-lg flex items-center justify-center p-6 text-center">
+              <div class="absolute inset-0 backface-hidden [transform:rotateY(180deg)] bg-brand-accent rounded-lg flex items-center justify-center p-6 text-center">
                 <p class="text-white">{cap.description}</p>
               </div>
             </div>
           </div>
         ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact" class="section bg-white">
-    <div class="container">
-      <div class="max-w-3xl mx-auto text-center mb-12">
-        <h2 class="text-headline mb-4">Get in contact with us today!</h2>
-        <p class="text-lg text-brand-secondary">
-          We look forward to working with you. Fill out the form below and we will contact you as soon as possible.
-        </p>
-      </div>
-
-      <div class="max-w-2xl mx-auto">
-        <ContactForm />
       </div>
     </div>
   </section>

@@ -26,7 +26,7 @@ test.describe('Navigation', () => {
     for (const path of criticalPaths) {
       await page.goto(path);
       await waitForPageReady(page);
-      const footer = page.locator('footer.bg-brand-dark').first();
+      const footer = page.locator('footer').first();
       await expect(footer, `Footer missing on ${path}`).toBeVisible();
     }
   });
