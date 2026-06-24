@@ -13,6 +13,7 @@ npm-debug.log*
 .env
 .env.local
 .env.*.local
+!.env.example
 
 # TinaCMS
 tina/__generated__/
@@ -36,6 +37,7 @@ Thumbs.db
 docs/
 .vercel
 .env*
+!.env.example
 
 # Test artifacts
 coverage/
