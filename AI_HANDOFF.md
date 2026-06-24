@@ -50,7 +50,8 @@ An English-only, single-page Astro website for BTX Clinical Research, a clinical
 - `npm run test:all` passes.
 - GitHub repo: `https://github.com/chrispronovadesigns/btx-clinical-research`
 - Vercel project: `christopher-a-migliorinis-projects/btx-clinical-research`
-- Production deployment live: `https://btx-clinical-research-9snb83oor.vercel.app` (GitHub-triggered build of `a5c2be0`).
+- Production deployment live: `https://btx-clinical-research-9snb83oor.vercel.app` (GitHub-triggered build of `081e48e`).
+- Project domain: `https://btx-clinical-research.vercel.app`
 - `btxclinicalresearch.com` has been added to the Vercel project as a custom domain but DNS must still be configured/verified.
 
 ---
