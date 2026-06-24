@@ -7,30 +7,28 @@ export default {
     extend: {
       colors: {
         brand: {
-          primary:   '#0A1A1F',
-          secondary: '#0F2E33',
-          surface:   '#0A1A1F',
-          abyss:     '#083B4B',
-          accent:    '#0B4F6C',
-          azure:     '#2BBBAD',
-          highlight: '#3CCEC0',
-          cyantext:  '#1EAE98',
-          text:      '#F4F8F8',
-          muted:     '#8BA0A2',
-          border:    '#1A3237',
+          primary:   '#172161', // dark navy — headings, footer, primary buttons
+          secondary: '#1E5D7C', // teal-blue — body text, links
+          accent:    '#2EAFA0', // teal — accents, hover states, buttons
+          light:     '#FAFAFA', // light gray — alternating backgrounds
+          bluegray:  '#F9FAFD', // very light blue-gray — section backgrounds
+          border:    '#C8D5DC', // light blue-gray borders
+          surface:   '#FFFFFF', // white cards/inputs
+          text:      '#1E5D7C', // body text
+          heading:   '#172161', // headings
+          muted:     '#5A7A8A', // secondary text
+          dark:      '#172161', // footer background
         },
       },
       fontFamily: {
-        heading: ['Space Grotesk', 'system-ui', 'sans-serif'],
-        body:    ['Inter', 'system-ui', 'sans-serif'],
+        heading: ['Poppins', 'system-ui', 'sans-serif'],
+        body:    ['Poppins', 'system-ui', 'sans-serif'],
       },
       backgroundImage: {
-        'gradient-brand': 'linear-gradient(135deg, #083B4B 0%, #0B4F6C 35%, #2BBBAD 65%, #3CCEC0 100%)',
+        'gradient-brand': 'linear-gradient(135deg, #1E5D7C 0%, #2EAFA0 100%)',
       },
       boxShadow: {
-        'glow-blue': '0 0 24px rgba(11,79,108,0.35)',
-        'glow-cyan': '0 0 24px rgba(60,206,192,0.35)',
-        'card':      '0 4px 24px rgba(0,0,0,0.5)',
+        'card': '0 4px 24px rgba(23, 33, 97, 0.08)',
       },
     },
   },

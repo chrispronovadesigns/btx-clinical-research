@@ -19,28 +19,36 @@ An English-only, single-page Astro website for BTX Clinical Research, a clinical
 - **Sections:** Hero, Mission & Vision, Core Values, Research Team, Site Capabilities, and Contact (with form). All are inline in `src/pages/index.astro`.
 - **Forms:** `src/pages/api/contact.ts` handles submissions via Resend. The contact form is rendered by `src/components/ui/ContactForm.astro` and includes fields for Name, Email, Phone, Service, and Message.
 - **SEO:** `src/lib/seo/config.ts` and `src/components/seo/SEOHead.astro` manage meta tags, Open Graph, and JSON-LD. The sitemap is generated at `.vercel/output/static/sitemap-index.xml`.
-- **Brand:** Teal/medical color palette defined in `tailwind.config.ts` and `src/styles/global.css`. Logo and building images are in `public/images/`.
+- **Brand:** Light medical theme using the original WordPress site's color palette:
+  - Primary navy: `#172161`
+  - Secondary teal-blue: `#1E5D7C`
+  - Accent teal: `#2EAFA0`
+  - Light background: `#F9FAFD`
+  - Body font and headings: Poppins (Google Fonts).
+  - Font Awesome icons loaded via CDN for the original icon set.
+- **Assets:** Logo, building photos, team photos, and the medical team icon are in `public/images/`.
 
 ---
 
 ## Key decisions made
 
 1. **English-only single-page site.** The client requested only the homepage, so the boilerplate's bilingual pages, blog, portfolio, and services were stripped.
-2. **Team page content inlined.** The research team bios from the original `/btx-clinical-research-medical-team/` WordPress page are displayed in the homepage Team section.
-3. **Contact form email target.** Submissions are sent to `info@btxclinicalresearch.com` via the `CONTACT_EMAIL` environment variable.
-4. **PWA icons simplified.** The square logo PNG is used as the PWA icon and apple-touch-icon; a custom SVG favicon replaces the boilerplate icon.
-5. **WordPress redirects kept minimal.** The `/btx-clinical-research-medical-team/` path redirects to `/` because the team content is now on the homepage.
+2. **Port the original design.** The site is rebuilt to match the original WordPress/Elementor layout: light theme, full-width sections, top bar with address and phone, sticky header with logo and nav links, hero text + gallery, mission, values, team, capabilities, and contact form.
+3. **Team page content inlined.** The research team bios from the original `/btx-clinical-research-medical-team/` WordPress page are displayed in the homepage Team section.
+4. **Contact form matches original fields.** The form includes Name, Email, Phone, Service, and Message, and the submit button is labeled "Send" as on the original site.
+5. **Contact form email target.** Submissions are sent to `info@btxclinicalresearch.com` via the `CONTACT_EMAIL` environment variable.
+6. **WordPress redirects kept minimal.** The `/btx-clinical-research-medical-team/` path redirects to `/` because the team content is now on the homepage.
 
 ---
 
 ## Current state / live verification
 
 - `npm run build` succeeds.
-- `npm run test` passes (16 unit tests).
+- `npm run test` passes (15 unit tests).
 - `npm run test:e2e` passes (102 tests across chromium and webkit, desktop and mobile).
 - Deployed to Vercel at:
   - `https://btx-clinical-research.vercel.app`
-  - `https://btx-clinical-research-nt3l4wewy.vercel.app` (initial production deployment)
+  - `https://btx-clinical-research-21lb4s8f1.vercel.app` (latest production deployment)
 - GitHub repo: `https://github.com/chrispronovadesigns/btx-clinical-research`
 - `btxclinicalresearch.com` has been added to the Vercel project as a custom domain but DNS must still be configured/verified.
 

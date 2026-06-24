@@ -1,164 +1,145 @@
 ---
-interface Props {
-  source?: string;
-  turnstileSiteKey?: string;
-  submitLabel?: string;
-  successHeading?: string;
-  successSubheading?: string;
-}
-
-const {
-  source = 'contact',
-  turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY,
-  submitLabel = 'Send Message',
-  successHeading = 'Message sent',
-  successSubheading = "We will get back to you as soon as possible.",
-} = Astro.props;
-
-const formId = `contact-form-${Math.random().toString(36).slice(2, 9)}`;
+const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+const hasTurnstile = Boolean(TURNSTILE_SITE_KEY);
 ---
 
-<div class="contact-form-wrapper" data-source={source} data-form-id={formId}>
-  <form id={formId} class="space-y-5" novalidate>
-    <div class="absolute opacity-0 top-0 left-0 h-0 w-0 -z-10 overflow-hidden" aria-hidden="true">
-      <label>Do not fill this out
-        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
-      </label>
-    </div>
-    <input type="hidden" name="_form_loaded" value="" />
-
+<form
+  id="contact-form"
+  action="/api/contact"
+  method="POST"
+  class="space-y-4"
+  novalidate
+>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div>
-      <label class="block text-sm font-medium text-brand-muted mb-1.5" for={`${formId}-name`}>Your Name</label>
-      <input type="text" id={`${formId}-name`} name="first_name" class="input" placeholder="Jane Smith" required maxlength="100" autocomplete="name" />
+      <label for="name" class="sr-only">Your Name</label>
+      <input
+        id="name"
+        name="name"
+        type="text"
+        autocomplete="name"
+        placeholder="Your Name"
+        class="input"
+      />
     </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <div>
-        <label class="block text-sm font-medium text-brand-muted mb-1.5" for={`${formId}-email`}>Your Email</label>
-        <input type="email" id={`${formId}-email`} name="email" class="input" placeholder="jane@company.com" required maxlength="254" autocomplete="email" />
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-brand-muted mb-1.5" for={`${formId}-phone`}>Phone Number</label>
-        <input type="tel" id={`${formId}-phone`} name="phone" class="input" placeholder="(956) 280-5310" maxlength="20" autocomplete="tel" />
-      </div>
-    </div>
-
     <div>
-      <label class="block text-sm font-medium text-brand-muted mb-1.5" for={`${formId}-service`}>Service</label>
-      <select id={`${formId}-service`} name="service" class="input" required>
-        <option value="" disabled selected>Select a service...</option>
-        <option value="Clinical Research">Clinical Research</option>
-        <option value="Clinical Trials">Clinical Trials</option>
-        <option value="Patient Recruitment">Patient Recruitment</option>
-        <option value="General Inquiry">General Inquiry</option>
-      </select>
+      <label for="email" class="sr-only">Your Email</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        autocomplete="email"
+        placeholder="Your Email"
+        required
+        class="input"
+      />
     </div>
-
     <div>
-      <label class="block text-sm font-medium text-brand-muted mb-1.5" for={`${formId}-message`}>Message</label>
-      <textarea id={`${formId}-message`} name="message" class="input min-h-[140px]" placeholder="How can we help you?" required maxlength="2000"></textarea>
+      <label for="phone" class="sr-only">Phone Number</label>
+      <input
+        id="phone"
+        name="phone"
+        type="tel"
+        autocomplete="tel"
+        placeholder="Phone Number"
+        required
+        class="input"
+      />
     </div>
-
-    {turnstileSiteKey && (
-      <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="dark"></div>
-    )}
-
-    <div class="contact-error hidden text-sm text-red-400 rounded-lg bg-red-400/10 px-4 py-3">
-      Something went wrong. Please try again.
+    <div>
+      <label for="service" class="sr-only">Service</label>
+      <input
+        id="service"
+        name="service"
+        type="text"
+        placeholder="Service"
+        required
+        class="input"
+      />
     </div>
-
-    <button type="submit" id="contact-submit" class="btn-big w-full justify-center">
-      <span class="contact-submit-label">{submitLabel}</span>
-      <svg class="contact-submit-arrow w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-      </svg>
-      <svg class="contact-submit-spinner w-4 h-4 hidden animate-spin" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-      </svg>
-    </button>
-  </form>
-
-  <div id="contact-success" class="contact-success hidden text-center py-8">
-    <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-brand-accent/20 flex items-center justify-center">
-      <svg class="w-8 h-8 text-brand-azure" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-      </svg>
-    </div>
-    <h3 class="text-2xl font-bold font-heading mb-3">{successHeading}</h3>
-    <p class="text-brand-muted">{successSubheading}</p>
   </div>
+
+  <div>
+    <label for="message" class="sr-only">Message</label>
+    <textarea
+      id="message"
+      name="message"
+      rows="5"
+      placeholder="Message"
+      class="input"
+    ></textarea>
+  </div>
+
+  {hasTurnstile && (
+    <div class="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-theme="light"></div>
+    <input type="hidden" name="cf-turnstile-response" />
+  )}
+
+  <div class="honeypot" aria-hidden="true">
+    <label for="website">Do not fill this out</label>
+    <input id="website" type="text" name="website" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <button type="submit" id="contact-submit" class="btn-primary w-full md:w-auto">Send</button>
+</form>
+
+<div id="contact-success" class="hidden mt-4 p-4 rounded bg-green-50 text-green-800 border border-green-200">
+  <p class="font-semibold">Message sent</p>
+  <p class="text-sm">We will get back to you as soon as possible.</p>
 </div>
 
-<script>
-  document.querySelectorAll<HTMLDivElement>('.contact-form-wrapper').forEach((wrapper) => {
-    const formId = wrapper.dataset.formId;
-    const source = wrapper.dataset.source;
-    if (!formId || !source) return;
+<div id="contact-error" class="hidden mt-4 p-4 rounded bg-red-50 text-red-800 border border-red-200">
+  <p class="font-semibold">Something went wrong. Please try again.</p>
+</div>
 
-    const form = wrapper.querySelector<HTMLFormElement>('form');
-    const formLoaded = wrapper.querySelector<HTMLInputElement>('input[name="_form_loaded"]');
-    const submitBtn = wrapper.querySelector<HTMLButtonElement>('button[type="submit"]');
-    const submitLabel = wrapper.querySelector<HTMLSpanElement>('.contact-submit-label');
-    const submitArrow = wrapper.querySelector<SVGSVGElement>('.contact-submit-arrow');
-    const submitSpinner = wrapper.querySelector<SVGSVGElement>('.contact-submit-spinner');
-    const errorBox = wrapper.querySelector<HTMLDivElement>('.contact-error');
-    const successBox = wrapper.querySelector<HTMLDivElement>('.contact-success');
+<script is:inline>
+  const form = document.getElementById('contact-form');
+  const success = document.getElementById('contact-success');
+  const error = document.getElementById('contact-error');
 
-    if (!form || !submitBtn || !submitLabel || !submitArrow || !submitSpinner || !errorBox || !successBox) return;
-
-    if (formLoaded) {
-      formLoaded.value = Date.now().toString();
-    }
-
-    const originalLabel = submitLabel.textContent || 'Send Message';
-
+  if (form) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      errorBox.classList.add('hidden');
+      success.classList.add('hidden');
+      error.classList.add('hidden');
 
-      const data = Object.fromEntries(new FormData(form));
-      if (!data.first_name || !data.email || !data.message || !data.service) {
-        errorBox.textContent = 'Please fill in all required fields.';
-        errorBox.classList.remove('hidden');
+      const honeypot = form.querySelector('input[name="website"]');
+      if (honeypot && honeypot.value) {
+        error.classList.remove('hidden');
         return;
       }
 
-      const turnstileInput = form.querySelector('[name="cf-turnstile-response"]') as HTMLInputElement | null;
-      const turnstileToken = turnstileInput?.value;
-      if (turnstileInput && !turnstileToken) {
-        errorBox.textContent = 'Please complete the security verification.';
-        errorBox.classList.remove('hidden');
-        return;
-      }
-
-      submitBtn.disabled = true;
-      submitLabel.textContent = 'Sending...';
-      submitArrow.classList.add('hidden');
-      submitSpinner.classList.remove('hidden');
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
 
       try {
         const res = await fetch('/api/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ...data, source, 'cf-turnstile-response': turnstileToken }),
+          body: JSON.stringify(data),
         });
 
-        const result = await res.json();
-        if (!res.ok || !result.ok) {
-          throw new Error(result.error || 'Request failed');
+        if (res.ok) {
+          form.reset();
+          success.classList.remove('hidden');
+          form.classList.add('hidden');
+        } else {
+          error.classList.remove('hidden');
         }
-
-        form.classList.add('hidden');
-        successBox.classList.remove('hidden');
-      } catch (_) {
-        errorBox.textContent = 'Something went wrong. Please try again.';
-        errorBox.classList.remove('hidden');
-        submitBtn.disabled = false;
-        submitLabel.textContent = originalLabel;
-        submitArrow.classList.remove('hidden');
-        submitSpinner.classList.add('hidden');
+      } catch {
+        error.classList.remove('hidden');
       }
     });
-  });
+  }
 </script>
+
+<style>
+  .honeypot {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    height: 0;
+    width: 0;
+    overflow: hidden;
+  }
+</style>

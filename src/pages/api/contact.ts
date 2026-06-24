@@ -66,7 +66,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     });
   }
 
-  if (!body || !body.email || !body.first_name || !body.message) {
+  if (!body || !body.email || !body.name || !body.message) {
     return new Response(JSON.stringify({ ok: false, error: 'Missing required fields' }), {
       status: 400,
       headers: { 'Content-Type': 'application/json' },
@@ -74,16 +74,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   }
 
   // Honeypot check
-  if (body._gotcha) {
-    return new Response(JSON.stringify({ ok: true }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
-
-  // Minimum time check (3 seconds)
-  const loaded = parseInt(body._form_loaded || '0', 10);
-  if (loaded && Date.now() - loaded < 3000) {
+  if (body.website || body._gotcha) {
     return new Response(JSON.stringify({ ok: true }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
@@ -127,8 +118,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     });
   }
 
-  const { first_name, last_name, email, phone, service, message } = body;
-  const fullName = [first_name, last_name].filter(Boolean).join(' ');
+  const { name, email, phone, service, message } = body;
 
   const apiKey = import.meta.env.RESEND_API_KEY;
 
@@ -141,34 +131,18 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   }
 
   const resend = new Resend(apiKey);
-  const audienceId = import.meta.env.RESEND_CONTACT_AUDIENCE_ID;
-
-  // Add to Resend contact-form audience (best-effort, don't fail form if this errors)
-  if (audienceId) {
-    try {
-      await resend.contacts.create({
-        email,
-        firstName: first_name || '',
-        lastName: last_name || '',
-        unsubscribed: false,
-        audienceId,
-      });
-    } catch (audienceErr) {
-      console.error('[contact] Failed to add contact to audience:', audienceErr);
-    }
-  }
 
   try {
     await resend.emails.send({
       from: `BTX Clinical Research <${FROM_EMAIL}>`,
       to: INTERNAL_EMAIL,
       replyTo: email,
-      subject: `New contact: ${fullName}${service ? ` — ${service}` : ''}`,
+      subject: `New contact: ${name}${service ? ` — ${service}` : ''}`,
       html: `
         <div style="font-family: Arial, Helvetica, sans-serif; max-width: 600px; color: #111;">
-          <h2 style="font-size: 18px; margin: 0 0 16px; border-bottom: 3px solid #0B4F6C; padding-bottom: 12px;">New contact form submission</h2>
+          <h2 style="font-size: 18px; margin: 0 0 16px; border-bottom: 3px solid #172161; padding-bottom: 12px;">New contact form submission</h2>
           <table style="font-size: 14px; line-height: 1.6; border-collapse: collapse; width: 100%;">
-            <tr><td style="padding: 6px 16px 6px 0; font-weight: 600; white-space: nowrap; vertical-align: top;">Name</td><td>${fullName}</td></tr>
+            <tr><td style="padding: 6px 16px 6px 0; font-weight: 600; white-space: nowrap; vertical-align: top;">Name</td><td>${name}</td></tr>
             <tr><td style="padding: 6px 16px 6px 0; font-weight: 600; white-space: nowrap; vertical-align: top;">Email</td><td><a href="mailto:${email}">${email}</a></td></tr>
             <tr><td style="padding: 6px 16px 6px 0; font-weight: 600; white-space: nowrap; vertical-align: top;">Phone</td><td>${phone || 'Not provided'}</td></tr>
             <tr><td style="padding: 6px 16px 6px 0; font-weight: 600; white-space: nowrap; vertical-align: top;">Service</td><td>${service || 'Not specified'}</td></tr>

@@ -53,25 +53,9 @@ describe('POST /api/contact', () => {
     const res = await POST({
       request: createRequest({
         email: 'bot@test.com',
-        first_name: 'Bot',
+        name: 'Bot',
         message: 'spam',
-        _gotcha: 'filled',
-      }),
-      clientAddress: '127.0.0.1',
-    } as any);
-    expect(res.status).toBe(200);
-    const json = await res.json();
-    expect(json.ok).toBe(true);
-  });
-
-  it('returns 200 for form submitted too quickly', async () => {
-    const POST = await getContactHandler();
-    const res = await POST({
-      request: createRequest({
-        email: 'test@test.com',
-        first_name: 'John',
-        message: 'Hello',
-        _form_loaded: Date.now().toString(),
+        website: 'filled',
       }),
       clientAddress: '127.0.0.1',
     } as any);
@@ -85,9 +69,8 @@ describe('POST /api/contact', () => {
     const res = await POST({
       request: createRequest({
         email: 'test@test.com',
-        first_name: 'John',
+        name: 'John Doe',
         message: 'Hello world',
-        _form_loaded: (Date.now() - 10000).toString(),
       }),
       clientAddress: '127.0.0.1',
     } as any);
@@ -105,9 +88,8 @@ describe('POST /api/contact', () => {
     const res = await POST({
       request: createRequest({
         email: 'test@test.com',
-        first_name: 'John',
+        name: 'John Doe',
         message: 'Hello world',
-        _form_loaded: (Date.now() - 10000).toString(),
         'cf-turnstile-response': 'fake-token',
       }),
       clientAddress: '127.0.0.1',
@@ -127,10 +109,10 @@ describe('POST /api/contact', () => {
     const res = await POST({
       request: createRequest({
         email: 'test@test.com',
-        first_name: 'John',
-        last_name: 'Doe',
+        name: 'John Doe',
+        phone: '(956) 280-5310',
+        service: 'Clinical Research',
         message: 'Hello world',
-        _form_loaded: (Date.now() - 10000).toString(),
         'cf-turnstile-response': 'valid-token',
       }),
       clientAddress: '127.0.0.1',

@@ -15,18 +15,18 @@ test.describe('Navigation', () => {
     await expect(nav).toBeVisible();
 
     const navBar = page.locator('header nav');
-    await expect(navBar.getByRole('link', { name: 'Mission', exact: true })).toBeVisible();
-    await expect(navBar.getByRole('link', { name: 'Values', exact: true })).toBeVisible();
-    await expect(navBar.getByRole('link', { name: 'Team', exact: true })).toBeVisible();
-    await expect(navBar.getByRole('link', { name: 'Capabilities', exact: true })).toBeVisible();
-    await expect(navBar.getByRole('link', { name: 'Contact', exact: true })).toBeVisible();
+    await expect(navBar.getByRole('link', { name: 'Our Mission', exact: true })).toBeVisible();
+    await expect(navBar.getByRole('link', { name: 'Our Values', exact: true })).toBeVisible();
+    await expect(navBar.getByRole('link', { name: 'Our Team', exact: true })).toBeVisible();
+    await expect(navBar.getByRole('link', { name: 'Our Capabilities', exact: true })).toBeVisible();
+    await expect(navBar.getByRole('link', { name: 'Contact Us', exact: true })).toBeVisible();
   });
 
   test('footer is present on critical pages', async ({ page }) => {
     for (const path of criticalPaths) {
       await page.goto(path);
       await waitForPageReady(page);
-      const footer = page.locator('footer.bg-brand-secondary').first();
+      const footer = page.locator('footer.bg-brand-dark').first();
       await expect(footer, `Footer missing on ${path}`).toBeVisible();
     }
   });

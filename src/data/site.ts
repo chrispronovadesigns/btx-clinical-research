@@ -9,11 +9,11 @@ export const site = {
 
 export const nav = {
   en: [
-    { label: 'Mission', href: '#mission' },
-    { label: 'Values', href: '#values' },
-    { label: 'Team', href: '#team' },
-    { label: 'Capabilities', href: '#capabilities' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'Our Mission', href: '#mission' },
+    { label: 'Our Values', href: '#values' },
+    { label: 'Our Team', href: '#team' },
+    { label: 'Our Capabilities', href: '#capabilities' },
+    { label: 'Contact Us', href: '#contact' },
   ],
 };
 

@@ -4,8 +4,8 @@
   "description": "BTX Clinical Research is a clinical research organization and site based in Brownsville, Texas.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0A1A1F",
-  "theme_color": "#0B4F6C",
+  "background_color": "#ffffff",
+  "theme_color": "#172161",
   "orientation": "portrait",
   "icons": [
     {

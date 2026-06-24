@@ -74,17 +74,18 @@ const allSchemas = [...defaultSchemas, ...schemas];
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="apple-touch-icon" href="/images/btx-logo-square.png" />
-    <meta name="theme-color" content="#0B4F6C" />
+    <meta name="theme-color" content="#172161" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="BTX Clinical Research" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <SEOHead
       title={title}
       description={description}
@@ -101,10 +102,10 @@ const allSchemas = [...defaultSchemas, ...schemas];
     <link rel="sitemap" href="/sitemap-index.xml" />
     <slot name="head" />
   </head>
-  <body class="bg-brand-primary text-brand-text">
+  <body class="bg-white text-brand-text">
     <Preheader />
     <Header />
-    <main id="main-content" class="pt-20 md:pt-[120px]">
+    <main id="main-content">
       <slot />
     </main>
     <Footer />
