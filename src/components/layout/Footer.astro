@@ -5,86 +5,119 @@ import { site, social } from '@/data/site';
 const googleReview = social.find((s) => s.label.toLowerCase().includes('google'));
 ---
 
-<footer class="bg-white text-brand-text">
-  <!-- Contact CTA -->
-  <section id="contact" class="relative bg-brand-light py-16 overflow-hidden">
-    <div
-      class="absolute inset-0 bg-contain bg-center bg-no-repeat opacity-10"
-      style="background-image: url('/images/btx-logo-square.png');"
-      aria-hidden="true"
-    ></div>
-    <div class="container relative z-10">
-      <div class="max-w-3xl mx-auto text-center mb-8">
-        <h2 class="text-headline mb-3 text-brand-heading">Get in contact with us today!</h2>
-        <p class="text-lg text-brand-secondary">We look forward to working with you.</p>
-      </div>
+<!-- Original Elementor footer template 24 -->
+<footer class="site-footer">
+  <!-- CTA (Elementor Pro call-to-action, image on the right) -->
+  <section id="contact" class="cta">
+    <div class="cta-content section-x">
+      <h2 class="type-primary">Get in contact with us today!</h2>
+      <p class="type-subtitle">We look forward to working with you.</p>
     </div>
+    <div class="cta-image" role="img" aria-label="BTX Clinical Research logo"></div>
   </section>
 
   <!-- Contact Form -->
-  <section class="bg-white pb-16">
-    <div class="container">
-      <p class="text-center text-brand-secondary mb-8">
-        FIll out the form below and we will cantact you as soon as possible
-      </p>
-      <div class="max-w-2xl mx-auto">
-        <ContactForm />
-      </div>
-    </div>
+  <section class="form-section">
+    <p class="form-intro">Fill out the form below and we will contact you as soon as possible.</p>
+    <ContactForm />
   </section>
 
   <!-- Main Footer -->
-  <div class="border-t border-brand-border">
-    <div class="container py-16">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-        <div>
-          <p class="text-brand-text leading-relaxed">
-            BTX Clinical Research is an independent, privately owned clinical research site in Brownsville, TX.
-          </p>
-        </div>
+  <div class="footer-main section-x">
+    <div class="footer-brand">
+      <img src="/images/btx-logo.png" alt="BTX Clinical Research" width="1001" height="481" loading="lazy" />
+      <p>BTX Clinical Research is an independent, privately owned clinical research site in Brownsville, TX.</p>
+    </div>
 
-        <div class="space-y-4">
-          <h3 class="text-lg font-semibold text-brand-heading">Get In Touch</h3>
-          <div class="space-y-3 text-sm text-brand-text">
-            <p>{site.address}</p>
-            <p>
-              <span class="font-medium">Email:</span>
-              <a href={`mailto:${site.email}`} class="text-brand-secondary hover:text-brand-accent transition-colors">{site.email}</a>
-            </p>
-            <p>
-              <span class="font-medium">Phone:</span>
-              <a href={site.phoneHref} class="text-brand-secondary hover:text-brand-accent transition-colors">{site.phone}</a>
-            </p>
-            <p>
-              <span class="font-medium">Hours:</span> {site.hours}
-            </p>
-            {googleReview && (
-              <p class="pt-1">
-                <a
-                  href={googleReview.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-brand-secondary hover:text-brand-accent transition-colors font-medium"
-                >
-                  Review Us on Google
-                </a>
-              </p>
-            )}
-          </div>
-        </div>
-      </div>
+    <div class="footer-contact">
+      <h3 class="type-secondary">Get In Touch</h3>
+      <p>{site.addressLine1}<br />{site.addressLine2}</p>
+      <ul role="list">
+        <li><a href={`mailto:${site.email}`}>Email: {site.email}</a></li>
+        <li><a href={site.phoneHref}>Phone: {site.phone}</a></li>
+        <li>Hours: {site.hours}</li>
+      </ul>
+      {googleReview && (
+        <>
+          <h4 class="type-box-title">Review Us on Google</h4>
+          <a href={googleReview.href} target="_blank" rel="noopener noreferrer" class="google-icon" aria-label="Review us on Google">
+            <i class="fab fa-google" aria-hidden="true"></i>
+          </a>
+        </>
+      )}
     </div>
   </div>
 
-  <!-- Bottom Bar -->
-  <div class="bg-brand-accent text-white">
-    <div class="container py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
-      <p>© 2025 All Rights Reserved. BTX Clinical Research</p>
-      <p>
-        Developed by Pronova Designs
-        <a href="https://pronovadesigns.com/brownsville-web-development-company-texas/" target="_blank" rel="noopener noreferrer" class="text-white hover:text-brand-primary transition-colors">Website Dev</a>
-        <a href="https://pronovadesigns.com/brownsville-texas-seo-company-digital-marketing/" target="_blank" rel="noopener noreferrer" class="text-white hover:text-brand-primary transition-colors"> | Digital Marketing</a>
-      </p>
-    </div>
+  <!-- Copyright Bar -->
+  <div class="footer-bottom">
+    <p class="copyright">© {new Date().getFullYear()} All Rights Reserved. BTX Clinical Research</p>
+    <p class="credits">
+      Developed by Pronova Designs
+      <a href="https://pronovadesigns.com/brownsville-web-development-company-texas/" target="_blank" rel="noopener noreferrer">Website Dev</a><br />
+      <a href="https://pronovadesigns.com/brownsville-texas-seo-company-digital-marketing/" target="_blank" rel="noopener noreferrer">| Digital Marketing</a>
+    </p>
   </div>
 </footer>
+
+<style>
+  h2, h3, h4, p { margin: 0; }
+  .site-footer { background: #fff; color: var(--color-brand-text); }
+
+  /* ── CTA ── */
+  .cta { display: flex; min-height: 620px; }
+  .cta-content {
+    flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; gap: 30px;
+    padding-left: 8%; padding-right: 10%; background: var(--color-brand-light);
+  }
+  .cta-content p { color: var(--color-brand-text); }
+  .cta-image {
+    flex: 0 0 45%; min-width: 45%; background: #fff url('/images/btx-logo-white.png') center / cover no-repeat;
+  }
+  @media (max-width: 1024px) {
+    .cta { min-height: 65vh; margin-top: 25vw; }
+    .cta-content { padding-left: 5%; }
+  }
+  @media (max-width: 767px) {
+    .cta { flex-direction: column-reverse; min-height: 0; margin-top: 35vw; }
+    .cta-image { min-height: 320px; flex-basis: auto; }
+    .cta-content { padding: 50px 5%; text-align: center; }
+  }
+
+  /* ── Form ── */
+  .form-section { max-width: 650px; margin: 5vw auto; }
+  .form-intro { padding: 0 25%; margin-bottom: 41px; text-align: center; }
+  @media (max-width: 1024px) { .form-section { margin-top: 25vw; } }
+  @media (max-width: 767px) {
+    .form-section { margin-top: 35vw; padding: 0 5vw; }
+    .form-intro { padding: 0; }
+  }
+
+  /* ── Main footer ── */
+  .footer-main { display: flex; padding-top: 5vw; padding-bottom: 5vw; }
+  .footer-brand { flex: 0 0 50%; padding-right: 20%; text-align: center; }
+  .footer-brand img { width: 100%; height: auto; margin-bottom: 20px; }
+  .footer-contact { flex: 0 0 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; text-align: center; }
+  .footer-contact ul { margin-top: -16px; }
+  .footer-contact a { color: var(--color-brand-text); }
+  .footer-contact a:hover { color: var(--color-brand-accent); }
+  .google-icon { font-size: 50px; line-height: 1; color: var(--color-brand-primary) !important; }
+  .google-icon:hover { color: var(--color-brand-accent) !important; }
+  @media (max-width: 1024px) {
+    .footer-main { flex-direction: column-reverse; padding-top: 8vw; padding-bottom: 8vw; }
+    .footer-brand { margin-top: 8%; padding-right: 35%; }
+  }
+  @media (max-width: 767px) {
+    .footer-main { padding-top: 20vw; padding-bottom: 20vw; }
+    .footer-brand { margin-top: 25%; padding-right: 0; }
+    .footer-contact ul li + li { margin-top: 8px; }
+  }
+
+  /* ── Copyright bar ── */
+  .footer-bottom {
+    display: flex; flex-direction: column; justify-content: center; gap: 20px;
+    min-height: 45px; padding: 15px 1rem; text-align: center; background: var(--color-brand-accent);
+  }
+  .copyright { color: var(--color-brand-border); }
+  .credits, .credits a { color: var(--color-brand-primary); }
+  .credits a:hover { color: #fff; }
+</style>

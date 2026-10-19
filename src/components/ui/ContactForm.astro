@@ -7,10 +7,10 @@ const hasTurnstile = Boolean(TURNSTILE_SITE_KEY);
   id="contact-form"
   action="/api/contact"
   method="POST"
-  class="space-y-4"
+  class="contact-form"
   novalidate
 >
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <div class="contact-grid">
     <div>
       <label for="name" class="sr-only">Your Name</label>
       <input
@@ -80,7 +80,9 @@ const hasTurnstile = Boolean(TURNSTILE_SITE_KEY);
     <input id="website" type="text" name="website" tabindex="-1" autocomplete="off" />
   </div>
 
-  <button type="submit" id="contact-submit" class="btn-primary w-full md:w-auto">Send</button>
+  <div class="contact-actions">
+    <button type="submit" id="contact-submit" class="btn-primary contact-submit">Send</button>
+  </div>
 </form>
 
 <div id="contact-success" class="hidden mt-4 p-4 rounded bg-green-50 text-green-800 border border-green-200">
@@ -134,6 +136,12 @@ const hasTurnstile = Boolean(TURNSTILE_SITE_KEY);
 </script>
 
 <style>
+  .contact-form { display: flex; flex-direction: column; gap: 20px; }
+  .contact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px 30px; }
+  @media (max-width: 767px) { .contact-grid { grid-template-columns: 1fr; } }
+  .contact-actions { display: flex; justify-content: center; }
+  .contact-submit { padding: 20px 84px; border-radius: 50px; }
+
   .honeypot {
     position: absolute;
     left: -9999px;

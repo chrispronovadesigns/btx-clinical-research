@@ -2,188 +2,297 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { site } from '@/data/site';
 
+// Layout and copy mirror the original Elementor homepage (WordPress post 33).
 const title = 'BTX Clinical Research — Innovation & Care';
 const description = 'BTX Clinical Research is a clinical research organization and site based in Brownsville, Texas. Reliable, professional, state-of-the-art clinical trial support.';
+
+const gallery = [
+  { src: '/images/btx-building.jpg', alt: 'BTX Clinical Research building front' },
+  { src: '/images/btx-office-1.jpg', alt: 'BTX Clinical Research office' },
+  { src: '/images/btx-office-2.jpg', alt: 'BTX Clinical Research examination room' },
+  { src: '/images/btx-office-3.jpg', alt: 'BTX Clinical Research facility interior' },
+];
 
 const values = [
   {
     title: 'Teamwork',
-    icon: 'fa-network-wired',
+    icon: 'fas fa-network-wired',
     text: 'We believe in the power of collaboration and teamwork. We encourage open communication, respect, and support to create a positive and inclusive work environment.',
   },
   {
     title: 'Innovation',
-    icon: 'fa-fast-forward',
+    icon: 'fas fa-fast-forward',
     text: 'We are dedicated to exploring new ideas and technologies to advance medical knowledge and enhance patient care. We aim to drive positive change in healthcare and research.',
   },
   {
     title: 'Integrity',
-    icon: 'fa-hand-rock',
+    icon: 'fas fa-hand-rock',
     text: 'We are committed to honesty, transparency, and ethical conduct. We strive to maintain that trust through our actions and decisions.',
   },
 ];
 
-const team = [
-  { name: 'Andre Rosas, MD', role: 'Co-owner/Medical director', image: '/images/team-andre.jpg' },
-  { name: 'Rosa Rosas, MD', role: 'CEO/Founder', image: '/images/team-icon.png' },
-  { name: 'Etienne Rosas, PhD', role: '', image: '/images/team-etienne.png' },
-  { name: 'Jared Parkin', role: '', image: '/images/team-icon.png' },
-  { name: 'Alejandro Reyes, MSHS', role: 'Care Coordinator', image: '/images/team-alejandro.jpg' },
+// Two rows, as in the original: founders on top, three wider-margined columns below.
+const teamRows = [
+  [
+    { name: 'Andre Rosas, MD', role: 'Co-owner/Medical director', image: '/images/team-andre.jpg', round: false },
+    { name: 'Rosa Rosas, MD', role: 'CEO/Founder', image: '/images/team-icon.png', round: true },
+  ],
+  [
+    { name: 'Etienne Rosas, PhD', role: '', image: '/images/team-etienne.png', round: false },
+    { name: 'Jared Parkin', role: '', image: '/images/team-icon.png', round: true },
+    { name: 'Alejandro Reyes, MSHS', role: 'Care Coordinator', image: '/images/team-alejandro.jpg', round: false },
+  ],
 ];
 
+// Listed in visual (row-major) order. The original stacks Storage/Meeting,
+// Vitals/Security and Station/ECG in its second row of columns.
 const capabilities = [
   { title: 'Office', icon: 'far fa-building', description: '1,650 Square foot office with four examination rooms with secured WiFi' },
-  { title: 'Lounge', icon: 'far fa-coffee', description: 'Spacious Lounge Area with amenities' },
-  { title: 'Lab', icon: 'far fa-atom', description: 'Fully equipped on-site laboratory' },
-  { title: 'Storage', icon: 'far fa-store', description: 'Pharmacy-grade refrigerator and freezer' },
+  { title: 'Lounge', icon: 'fas fa-coffee', description: 'Spacious Lounge Area with amenities' },
+  { title: 'Lab', icon: 'fas fa-atom', description: 'Fully equipped on-site laboratory' },
+  { title: 'Storage', icon: 'fas fa-store', description: 'Pharmacy-grade refrigerator and freezer' },
+  { title: 'Vitals', icon: 'fas fa-heartbeat', description: 'Calibrated Vital signs equipment' },
+  { title: 'Station', icon: 'fas fa-tablet-alt', description: 'Clinical coordinator workstation' },
   { title: 'Meeting', icon: 'far fa-comments', description: 'Conference Room' },
-  { title: 'Vitals', icon: 'far fa-heartbeat', description: 'Calibrated Vital signs equipment' },
-  { title: 'Security', icon: 'far fa-lock', description: 'Secured medication storage area' },
-  { title: 'Station', icon: 'far fa-tablet-alt', description: 'Clinical coordinator workstation' },
-  { title: 'ECG', icon: 'far fa-heart', description: 'AED/12 lead ECG' },
+  { title: 'Security', icon: 'fas fa-lock', description: 'Secured medication storage area' },
+  { title: 'ECG', icon: 'fas fa-heart', description: 'AED/12 lead ECG' },
 ];
+
+const wavePath = 'M421.9,6.5c22.6-2.5,51.5,0.4,75.5,5.3c23.6,4.9,70.9,23.5,100.5,35.7c75.8,32.2,133.7,44.5,192.6,49.7c23.6,2.1,48.7,3.5,103.4-2.5c54.7-6,106.2-25.6,106.2-25.6V0H0v30.3c0,0,72,32.6,158.4,30.5c39.2-0.7,92.8-6.7,134-22.4c21.2-8.1,52.2-18.2,79.7-24.2C399.3,7.9,411.6,7.5,421.9,6.5z';
 ---
 
 <BaseLayout title={title} description={description}>
   <!-- Hero -->
-  <section class="relative bg-white overflow-hidden" aria-label="Hero">
-    <div class="container">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center py-16 lg:py-24">
-        <div class="order-2 lg:order-1">
-          <h1 class="text-display mb-2">BTX Clinical Research</h1>
-          <h2 class="text-subhead mb-6">Innovation & Care</h2>
-          <p class="text-lg text-brand-primary mb-8 max-w-xl">
-            BTX Clinical Research is a clinical research organization and site based in Brownsville, Texas.
-          </p>
-          <div class="flex flex-wrap gap-4">
-            <a href={site.phoneHref} class="btn-primary">Call Us</a>
-            <a href="#contact" class="btn-outline">Contact Us</a>
-          </div>
-        </div>
-
-        <div class="order-1 lg:order-2 grid grid-cols-2 gap-4">
-          <img
-            src="/images/building.jpg"
-            alt="BTX Clinical Research building exterior"
-            class="w-full h-64 md:h-80 object-cover rounded-lg shadow-card"
-          />
-          <img
-            src="/images/building-2.jpg"
-            alt="BTX Clinical Research facility interior"
-            class="w-full h-64 md:h-80 object-cover rounded-lg shadow-card"
-          />
-        </div>
+  <section class="hero" aria-label="Hero">
+    <div class="hero-text">
+      <h1 class="type-hero">BTX Clinical Research</h1>
+      <p class="hero-tagline type-secondary">Innovation &amp; Care</p>
+      <p>BTX Clinical Research is a clinical research organization and site based in Brownsville, Texas.</p>
+      <div class="hero-buttons">
+        <a href={site.phoneHref} class="btn-primary btn-wide">Call Us</a>
+        <a href="#contact" class="btn-primary btn-wide">Contact Us</a>
       </div>
     </div>
 
-    <div class="wave-bottom" aria-hidden="true">
-      <svg viewBox="0 0 1000 100" preserveAspectRatio="none">
-        <path class="shape-fill" d="M421.9,6.5c22.6-2.5,51.5,0.4,75.5,5.3c23.6,4.9,70.9,23.5,100.5,35.7c75.8,32.2,133.7,44.5,192.6,49.7
-        c23.6,2.1,48.7,3.5,103.4-2.5c54.7-6,106.2-25.6,106.2-25.6V0H0v30.3c0,0,72,32.6,158.4,30.5c39.2-0.7,92.8-6.7,134-22.4
-        c21.2-8.1,52.2-18.2,79.7-24.2C399.3,7.9,411.6,7.5,421.9,6.5z"></path>
-      </svg>
+    <img class="hero-photo" src="/images/btx-building.jpg" alt="BTX Clinical Research building front" width="1200" height="1600" />
+
+    <div class="hero-gallery">
+      {gallery.map((img) => (
+        <figure>
+          <img src={img.src} alt={img.alt} loading="eager" />
+        </figure>
+      ))}
+    </div>
+
+    <div class="shape shape-bottom" aria-hidden="true">
+      <svg viewBox="0 0 1000 100" preserveAspectRatio="none" style="width: calc(243% + 1.3px); height: 146px;"><path d={wavePath}></path></svg>
     </div>
   </section>
 
   <!-- Mission & Vision -->
-  <section id="mission" class="section bg-white">
-    <div class="container">
-      <div class="max-w-3xl mx-auto text-center lg:text-left lg:mx-0">
-        <h2 class="text-headline mb-6">Mission & Vision</h2>
-        <p class="text-lg text-brand-secondary mb-4">
-          BTX Clinical Research is committed to providing reliable, professional, and state-of-the-art support and management of clinical trials.
-        </p>
-        <p class="text-brand-text mb-8">
-          By leveraging the experience and expertise of its staff and partners in a medically underserved area, BTX strives to facilitate innovative solutions that advance medical treatment everywhere, empower our associates to reliably expand their health-related research, and improve our community's overall quality of life.
-        </p>
-        <a href="#contact" class="btn-primary">Contact Us</a>
+  <section id="mission" class="mission">
+    <div class="shape shape-top" aria-hidden="true">
+      <svg viewBox="0 0 1000 100" preserveAspectRatio="none" style="width: calc(209% + 1.3px); height: 55px;"><path d={wavePath}></path></svg>
+    </div>
+    <div class="mission-text">
+      <h2 class="type-primary">Mission &amp; Vision</h2>
+      <div class="mission-copy">
+        <p>BTX Clinical Research is committed to providing reliable, professional, and state-of-the-art support and management of clinical trials.</p>
+        <p>By leveraging the experience and expertise of its staff and partners in a medically underserved area, BTX strives to facilitate innovative solutions that advance medical treatment everywhere, empower our associates to reliably expand their health-related research, and improve our community’s overall quality of life.</p>
       </div>
+      <a href="#contact" class="btn-primary mission-button">Contact Us</a>
+    </div>
+    <div class="mission-logo">
+      <img src="/images/btx-logo-square.png" alt="BTX Clinical Research logo" width="1263" height="1250" loading="lazy" />
     </div>
   </section>
 
   <!-- Core Values -->
-  <section id="values" class="section section-alt">
-    <div class="container">
-      <div class="text-center mb-12">
-        <h2 class="text-headline mb-4">Our Core Values</h2>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {values.map((value) => (
-          <div class="text-center">
-            <div class="w-14 h-14 mx-auto mb-5 rounded-xl bg-brand-primary flex items-center justify-center text-white text-2xl">
-              <i class={`fas ${value.icon}`} aria-hidden="true"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-brand-heading mb-3">{value.title}</h3>
-            <p class="text-brand-text">{value.text}</p>
-          </div>
-        ))}
-      </div>
+  <section id="values" class="values section-x">
+    <h2 class="type-primary">Our Core Values</h2>
+    <div class="values-grid">
+      {values.map((value) => (
+        <div class="value">
+          <span class="value-icon"><i class={value.icon} aria-hidden="true"></i></span>
+          <h3 class="type-box-title">{value.title}</h3>
+          <p>{value.text}</p>
+        </div>
+      ))}
     </div>
   </section>
 
   <!-- Research Team -->
-  <section id="team" class="section bg-white">
-    <div class="container">
-      <div class="text-center mb-12">
-        <h2 class="text-headline mb-4">Our Research Team</h2>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-        {team.map((member) => (
-          <div class="text-center">
-            <div class="aspect-square overflow-hidden rounded-lg mb-4 bg-brand-bluegray">
-              <img
-                src={member.image}
-                alt={member.name}
-                class="w-full h-full object-cover"
-              />
+  <section id="team" class="team section-x">
+    <h2 class="type-primary">Our Research Team</h2>
+    {teamRows.map((row) => (
+      <div class="team-row">
+        {row.map((member) => (
+          <div class="member">
+            <div class:list={['member-photo', { round: member.round }]}>
+              <img src={member.image} alt={member.name} loading="lazy" />
             </div>
-            <h3 class="text-xl font-semibold text-brand-heading">{member.name}</h3>
-            {member.role && <p class="text-brand-secondary font-medium">{member.role}</p>}
+            <h3 class="type-box-title">{member.name}</h3>
+            {member.role && <p><b>{member.role}</b></p>}
           </div>
         ))}
       </div>
-
-      <div class="text-center mt-12">
-        <a href="#team" class="btn-outline">Learn More About Our Team</a>
-      </div>
+    ))}
+    <div class="team-more">
+      <a href="#team" class="team-more-button">Learn More About Our Team</a>
     </div>
   </section>
 
   <!-- Site Capabilities -->
-  <section id="capabilities" class="section section-alt">
-    <div class="container">
-      <div class="text-center mb-12">
-        <h2 class="text-headline mb-4">Our Site Capabilities</h2>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {capabilities.map((cap) => (
-          <div class="group [perspective:1000px]">
-            <div class="relative h-56 transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-              <!-- Front -->
-              <div class="absolute inset-0 backface-hidden bg-brand-primary rounded-lg flex flex-col items-center justify-center p-6 text-center">
-                <div class="w-14 h-14 mb-4 rounded-full bg-white/10 flex items-center justify-center text-white text-2xl">
-                  <i class={cap.icon} aria-hidden="true"></i>
-                </div>
-                <h3 class="text-xl font-semibold text-white">{cap.title}</h3>
-              </div>
-              <!-- Back -->
-              <div class="absolute inset-0 backface-hidden [transform:rotateY(180deg)] bg-brand-accent rounded-lg flex items-center justify-center p-6 text-center">
-                <p class="text-white">{cap.description}</p>
-              </div>
-            </div>
+  <section id="capabilities" class="capabilities">
+    <h2 class="type-primary">Our Site Capabilities</h2>
+    <div class="flip-grid">
+      {capabilities.map((cap) => (
+        <div class="flip-box" tabindex="0">
+          <div class="flip-front">
+            <i class={cap.icon} aria-hidden="true"></i>
+            <h3 class="type-primary">{cap.title}</h3>
           </div>
-        ))}
-      </div>
+          <div class="flip-back">
+            <p class="type-subtitle">{cap.description}</p>
+          </div>
+        </div>
+      ))}
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .backface-hidden {
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
+  /* Elementor stacks widgets with a 20px gap */
+  h1, h2, h3, p { margin: 0; }
+
+  /* ── Hero ── */
+  .hero {
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; gap: 0;
+    min-height: 100vh; padding: 0 3vw 146px; background: var(--color-brand-light);
+  }
+  .hero-text { flex: 1 1 0; padding-right: 50px; display: flex; flex-direction: column; gap: 20px; position: relative; z-index: 3; }
+  .hero-tagline { color: var(--color-brand-text); }
+  .hero-buttons { display: flex; flex-wrap: wrap; gap: 20px 0; }
+  .hero-buttons a { margin-top: 20px; }
+  .hero-buttons a + a { margin-left: 20px; }
+  .hero-photo { display: none; }
+  .hero-gallery { flex: 1 1 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; position: relative; z-index: 3; }
+  .hero-gallery figure { position: relative; margin: 0; aspect-ratio: 1; overflow: hidden; border-radius: 28px; }
+  .hero-gallery img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+  .hero-gallery figure::after {
+    content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity 0.4s; mix-blend-mode: overlay;
+    background: radial-gradient(circle, var(--color-brand-accent), var(--color-brand-primary));
+  }
+  .hero-gallery figure:hover img { transform: scale(1.1); }
+  .hero-gallery figure:hover::after { opacity: 1; }
+
+  @media (max-width: 1024px) {
+    .hero { flex-direction: column; justify-content: center; padding: 60px 5vw 160px; }
+    .hero-text { padding-right: 0; }
+    .hero-gallery { display: none; }
+    .hero-photo { display: block; width: 100%; max-width: 640px; margin-top: 40px; position: relative; z-index: 3; border-radius: 20px; }
+  }
+  @media (max-width: 767px) {
+    .hero { margin-top: 20px; padding: 40px 15px 120px; min-height: 0; text-align: center; }
+    .hero-buttons { justify-content: center; }
+    .hero-buttons a + a { margin-left: 10px; }
+  }
+
+  /* ── Mission ── */
+  .mission {
+    position: relative; isolation: isolate;
+    display: flex; align-items: center;
+    padding: 10vw 8vw 0; background: #fff;
+  }
+  .mission .shape-top { z-index: -1; }
+  .mission-text { flex: 0 0 55%; padding-right: 5%; display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
+  .mission-copy { padding-right: 20%; display: flex; flex-direction: column; gap: 1em; }
+  .mission-button { margin-top: 5%; }
+  .mission-logo { flex: 0 0 45%; }
+  .mission-logo img { width: 100%; height: auto; border-radius: 20px; }
+  @media (max-width: 1024px) {
+    .mission { flex-direction: column-reverse; margin-top: 25vw; padding: 0 5vw; }
+    .mission-text { margin-top: 10%; padding-right: 0; }
+    .mission-copy { padding-right: 0; }
+  }
+  @media (max-width: 767px) {
+    .mission { margin-top: 0; padding-top: 100px; }
+    .mission-text { align-items: center; text-align: center; margin-top: 50px; }
+  }
+
+  /* ── Core Values ── */
+  .values { margin-top: 12vw; padding-top: 8vw; padding-bottom: 8vw; background: var(--color-brand-light); text-align: center; }
+  .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 8%; margin-top: 4%; }
+  .value { display: flex; flex-direction: column; align-items: center; }
+  .value-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 85px; height: 85px; margin-bottom: 20px; border-radius: 12px;
+    background: var(--color-brand-primary); color: var(--color-brand-light); font-size: 45px;
+    transition: transform 0.3s;
+  }
+  .value:hover .value-icon { transform: scale(0.9); }
+  .value h3 { margin-bottom: 10px; }
+  @media (max-width: 1024px) {
+    .values { margin-top: 25vw; padding-top: 12vw; padding-bottom: 12vw; }
+    .values-grid { grid-template-columns: repeat(2, 1fr); gap: 20% 20%; padding: 0 8%; }
+  }
+  @media (max-width: 767px) {
+    .values { margin-top: 35vw; padding-top: 25vw; padding-bottom: 25vw; }
+    .values-grid { grid-template-columns: 1fr; gap: 25vw; margin-top: 15%; padding: 0; }
+  }
+
+  /* ── Team ── */
+  .team { margin-top: 12vw; text-align: center; }
+  .team-row { display: flex; justify-content: center; margin-top: 4%; }
+  .member { flex: 1 1 0; margin: 0 10%; }
+  .member-photo { overflow: hidden; border-radius: 20px; margin-bottom: 15px; }
+  .member-photo.round { border-radius: 9999px; }
+  .member-photo img { display: block; width: 100%; height: auto; transition: transform 0.3s; }
+  .member:hover .member-photo img { transform: scale(1.1); }
+  .member h3 { margin-bottom: 15px; }
+  .team-more { margin-top: 30px; }
+  .team-more-button {
+    display: inline-block; padding: 20px 40px; border-radius: 10px;
+    background: var(--color-brand-primary); color: #fff;
+    font-size: 40px; font-weight: 400; line-height: 1.1; text-transform: capitalize;
+  }
+  .team-more-button:hover { color: #fff; background: var(--color-brand-text); }
+  @media (max-width: 1024px) {
+    .team { margin-top: 25vw; }
+    .member { flex: 0 1 33.33%; min-width: 0; margin: 0 5%; }
+    .team-more-button { font-size: 25px; }
+  }
+  @media (max-width: 767px) {
+    .team { margin-top: 35vw; }
+    .team-row { flex-direction: column; margin-top: 20%; }
+    .member { margin: 20% 0 0; }
+    .member:first-child { margin-top: 0; }
+    .team-more-button { font-size: 20px; }
+  }
+
+  /* ── Capabilities (Elementor Pro flip boxes, "slide" effect) ── */
+  .capabilities { margin-top: 124px; padding: 50px 0; background: var(--color-brand-light); }
+  .capabilities > h2 { text-align: center; margin-bottom: 20px; }
+  .flip-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .flip-box { position: relative; height: 280px; overflow: hidden; outline: none; }
+  .flip-front, .flip-back {
+    position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 35px; text-align: center;
+  }
+  .flip-front { background: var(--color-brand-primary); color: var(--color-brand-light); }
+  .flip-front i { font-size: 37px; margin-bottom: 20px; }
+  .flip-front h3 { color: var(--color-brand-light); }
+  .flip-back {
+    background: var(--color-brand-accent); color: #fff;
+    transform: translateY(100%); transition: transform 0.6s ease-in-out;
+  }
+  .flip-box:hover .flip-back, .flip-box:focus-visible .flip-back, .flip-box:focus-within .flip-back { transform: translateY(0); }
+  @media (max-width: 767px) {
+    .flip-grid { grid-template-columns: 1fr; }
+    .flip-box { height: 220px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .flip-back, .hero-gallery img, .member-photo img, .value-icon { transition: none; }
   }
 </style>

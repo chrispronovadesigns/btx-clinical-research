@@ -1,6 +1,6 @@
 # AI Handoff — btx-clinical-research
 
-**Last updated:** 2026-06-24 by Devin
+**Last updated:** 2026-10-19 by Claude Code
 **Convo thread:** /Users/migliorini-macbook/.local/share/devin/cli/summaries/history_25d290c72bc74fbb.md
 **Git HEAD:** a5c2be0
 
@@ -27,6 +27,24 @@ An English-only, single-page Astro website for BTX Clinical Research, a clinical
   - Body font and headings: Poppins (Google Fonts).
   - Font Awesome icons loaded via CDN for the original icon set.
 - **Assets:** Logo, building photos, team photos, and the medical team icon are in `public/images/`.
+
+---
+
+## Design source of truth (2026-10-19)
+
+The design was re-ported from the original Elementor data, read directly from WordPress via the EMCP connector (`emcp-btxclinicalresearch-com`), not from screenshots:
+
+- **Homepage:** post 33. **Header:** `elementor_library` 29. **Footer:** `elementor_library` 24. **Kit / global tokens:** post 9.
+- The live WP site no longer renders the header, footer, flip boxes or CTA, because Elementor Pro is gone. Read the stored Elementor JSON, not the live page.
+- The kit's type scale is in `src/styles/global.css` as `.type-hero` (85/65/48), `.type-primary` (65/45/28), `.type-secondary` (36/25/20), `.type-box-title`, `.type-subtitle` and `.type-accent`. Body text is Poppins 300, 16px (14px on tablet). Breakpoints follow Elementor: tablet ≤1024px, mobile ≤767px.
+- Intentional deviations: the hero uses two columns (in the original, a desktop-hidden middle column left an empty third). Capability tiles stack to one column on mobile. The original's "FIll out… cantact" typos are fixed. The copyright year is dynamic.
+
+## WordPress compromise notes (2026-10-19)
+
+The old WP install is still compromised. Do not copy content from it without sanitizing it first:
+- The homepage has a hidden casino link block in an HTML widget (`10557d4`) and 10 hidden `position:fixed` spam divs inside the Mission text widget (`5f4130da`).
+- There are about 499 posts, mostly casino SEO spam.
+- An unknown active plugin, "XDav Tracker" 1.0.0 (no author), is very likely the backdoor.
 
 ---
 
@@ -67,7 +85,8 @@ An English-only, single-page Astro website for BTX Clinical Research, a clinical
 3. **Verify Resend domain.** Ensure `info@btxclinicalresearch.com` (or the chosen `RESEND_FROM_EMAIL`) is a verified sending domain in Resend.
 4. **Configure DNS for custom domain.** Point `btxclinicalresearch.com` to Vercel's DNS records. The Vercel project shows `btxclinicalresearch.com` as a pending domain.
 5. **Optional image optimization.** The downloaded team and facility images are large; consider compressing them before final launch.
-6. **Update Google Business Profile link.** The "Review Us on Google" link currently points to a generic Google search; replace with the actual Google review URL when available.
+6. ~~Update Google Business Profile link.~~ Done: it now uses the original `https://g.co/kgs/iFk7pbD`.
+7. **Medical Team page.** "Learn More About Our Team" pointed to WP page 326 (`/btx-clinical-research-medical-team/`), which has not been ported. The button anchors to `#team` for now.
 
 ---
 

@@ -2,14 +2,31 @@
 import { site } from '@/data/site';
 ---
 
-<div class="bg-brand-light border-b border-brand-border text-brand-text text-sm">
-  <div class="container flex flex-col md:flex-row md:items-center md:justify-between py-2 gap-2">
-    <p class="text-brand-muted">{site.address}</p>
-    <a href={site.phoneHref} class="flex items-center gap-2 text-brand-secondary hover:text-brand-accent transition-colors font-medium">
-      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
-      </svg>
-      {site.phone}
-    </a>
-  </div>
+<!-- Original Elementor header template 29, "Top" section -->
+<div class="preheader section-x">
+  <p class="preheader-address">{site.address}</p>
+  <a href={site.phoneHref} class="preheader-phone">
+    <svg viewBox="0 0 14.9685 15" width="15" height="15" aria-hidden="true">
+      <path fill="currentColor" d="M14.576,11.0085,12.4827,8.9152a1.3923,1.3923,0,0,0-2.3176.5233,1.4244,1.4244,0,0,1-1.6447.8971A6.455,6.455,0,0,1,4.6328,6.4481,1.3551,1.3551,0,0,1,5.53,4.8033a1.3922,1.3922,0,0,0,.5233-2.3175L3.96.3925a1.4929,1.4929,0,0,0-2.0185,0l-1.42,1.42C-.8994,3.3082.6705,7.27,4.1843,10.7842s7.476,5.1585,8.9712,3.6633L14.576,13.027A1.4931,1.4931,0,0,0,14.576,11.0085Z"></path>
+    </svg>
+    {site.phoneDisplay}
+  </a>
 </div>
+
+<style>
+  .preheader {
+    position: relative; z-index: 96;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    min-height: 62px; background: #fff; color: var(--color-brand-primary);
+    box-shadow: 15px 15px 30px 5px rgba(0, 0, 0, 0.04);
+    font-size: 16px; font-weight: 300; line-height: 1.5;
+  }
+  .preheader-address { margin: 0; }
+  .preheader-phone { display: inline-flex; align-items: center; gap: 8px; color: var(--color-brand-primary); }
+  .preheader-phone:hover { color: var(--color-brand-text); }
+  @media (max-width: 1024px) { .preheader { font-size: 14px; } }
+  @media (max-width: 767px) {
+    .preheader { flex-direction: column; justify-content: center; gap: 2px; min-height: 50px; padding: 6px 1rem; font-size: 12px; text-align: center; }
+    .preheader-phone svg { width: 12px; height: 12px; }
+  }
+</style>
