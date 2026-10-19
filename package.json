@@ -8,7 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "postbuild": "node -e \"try{const f=require('fs'),p='.vercel/output/functions/_render.func/.vc-config.json';if(f.existsSync(p)){const c=JSON.parse(f.readFileSync(p,'utf8'));c.runtime='nodejs20.x';f.writeFileSync(p,JSON.stringify(c,null,2));console.log('[postbuild] Patched function runtime to nodejs20.x')}}catch(e){console.error('[postbuild] patch failed:',e.message)}\"",
+    "postbuild": "node -e \"try{const f=require('fs'),p='.vercel/output/functions/_render.func/.vc-config.json';if(f.existsSync(p)){const c=JSON.parse(f.readFileSync(p,'utf8'));c.runtime='nodejs22.x';f.writeFileSync(p,JSON.stringify(c,null,2));console.log('[postbuild] Patched function runtime to nodejs22.x')}}catch(e){console.error('[postbuild] patch failed:',e.message)}\"",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",

@@ -59,7 +59,7 @@ Connect the GitHub repo to a Vercel project named `btx-clinical-research` and se
 npm run build
 ```
 
-The postbuild script patches the Vercel function runtime to Node 20.
+The postbuild script patches the Vercel function runtime to Node 22.
 
 ## Testing
 
