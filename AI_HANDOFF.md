@@ -2,7 +2,7 @@
 
 **Last updated:** 2026-10-19 by Claude Code
 **Convo thread:** /Users/migliorini-macbook/.local/share/devin/cli/summaries/history_25d290c72bc74fbb.md
-**Git HEAD:** a5c2be0
+**Git HEAD:** see `git log` (design re-port merged to `main` 2026-10-19)
 
 ---
 
@@ -76,7 +76,7 @@ The old WP install is still compromised. Do not copy content from it without san
 
 ## Known gaps / next steps
 
-1. **Push the local changes to GitHub.** This will trigger the Vercel production deployment.
+1. ~~Push the local changes to GitHub.~~ Done: the design re-port is merged to `main`, and Vercel deploys `main` to production.
 2. **Set live environment variables.** `CONTACT_EMAIL` and `RESEND_FROM_EMAIL` are set to `info@btxclinicalresearch.com`. The following still need real values in Vercel:
    - `RESEND_API_KEY`
    - `PUBLIC_TURNSTILE_SITE_KEY`
@@ -104,6 +104,7 @@ The old WP install is still compromised. Do not copy content from it without san
 
 ## Critical conventions
 
+- **Vercel function runtime is patched in `package.json` `postbuild` (currently `nodejs22.x`).** Vercel discontinued `nodejs20.x`, and builds fail at the deploy step with `NOW_SANDBOX_WORKER_RUNTIME_INVALID` if it points at a retired runtime. Bump it when Vercel retires the next one.
 - **Do not add Spanish pages without explicit instruction.** The site is intentionally English-only.
 - **Do not use `cd` for cross-repo work.** Use `bash -c 'cd /path && cmd'` from the locked session directory.
 - **Do not upgrade `@astrojs/sitemap` to `^3.2.1` without also upgrading Astro to v5.** The pinned version avoids the `routes is undefined` build error.
