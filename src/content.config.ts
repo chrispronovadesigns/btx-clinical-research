@@ -1,7 +1,9 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
 
 const settings = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.{json,yaml,yml}', base: './src/content/settings' }),
   schema: z.object({
     siteName: z.string(),
     tagline: z.string(),
@@ -25,7 +27,6 @@ const settings = defineCollection({
       ogImage: z.string(),
     }),
     googleAnalyticsId: z.string(),
-  }),
-});
+  }),});
 
 export const collections = { settings };
