@@ -4,7 +4,7 @@ An English-only, single-page website for BTX Clinical Research, rebuilt from the
 
 ## Stack
 
-- **Astro 4** — static-first with serverless functions
+- **Astro 7** — static-first with serverless functions
 - **Tailwind CSS 3** — utility-first styling
 - **Vercel** — hosting + serverless adapter
 - **Resend** — contact form emails

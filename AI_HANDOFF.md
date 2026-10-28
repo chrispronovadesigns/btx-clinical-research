@@ -14,7 +14,7 @@ An English-only, single-page Astro website for BTX Clinical Research, a clinical
 
 ## Architecture
 
-- **Framework:** Astro 4 + Tailwind CSS 3 + Vercel serverless adapter.
+- **Framework:** Astro 7 + Tailwind CSS 3 (via PostCSS) + Vercel adapter (static output; API routes use `prerender = false`). Needs Node ≥ 22.23.4, so set the Vercel project Node.js Version to 22.x. Keep `compressHTML: false` (Astro 5+ strips whitespace between template expressions).
 - **Pages:** Only `src/pages/index.astro` (homepage) and `src/pages/privacy-policy.astro` exist. No blog, no Spanish pages, no service sub-pages.
 - **Sections:** Hero, Mission & Vision, Core Values, Research Team, Site Capabilities, and Contact (with form). All homepage content is inline in `src/pages/index.astro`.
 - **Forms:** `src/pages/api/contact.ts` handles submissions via Resend. The contact form is rendered by `src/components/ui/ContactForm.astro` and includes fields for Name, Email, Phone, Service, and Message.

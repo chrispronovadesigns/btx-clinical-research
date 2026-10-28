@@ -1,15 +1,16 @@
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
-import vercel from '@astrojs/vercel/serverless';
+import vercel from '@astrojs/vercel';
 import { serializeSitemapItem } from './src/lib/seo/sitemap-config';
 
 export default defineConfig({
+  // Astro 5+ strips whitespace between template expressions (`© {year}` newline `{rights}` renders as
+  // \"© 2026Acme\"). Keep Astro 4's whitespace; it is negligible after gzip.
+  compressHTML: false,
   site: 'https://btxclinicalresearch.com',
-  output: 'hybrid',
+  output: 'static',
   adapter: vercel(),
   integrations: [
-    tailwind(),
     sitemap({
       filter: (page) =>
         !page.includes('/_examples/') &&

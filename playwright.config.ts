@@ -11,6 +11,8 @@ export default defineConfig({
   workers: isCI ? 1 : undefined,
   reporter: isCI ? 'github' : [['html', { open: 'never' }], ['list']],
   use: {
+    // Pre-installed Chromium for sandboxes where `playwright install` cannot download (PW_CHROMIUM_PATH).
+    launchOptions: process.env.PW_CHROMIUM_PATH ? { executablePath: process.env.PW_CHROMIUM_PATH } : {},
     baseURL,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
