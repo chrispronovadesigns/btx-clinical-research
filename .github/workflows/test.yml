@@ -126,7 +126,7 @@ jobs:
           else
             # For PRs, you can integrate with Vercel's deployment action
             # See: https://github.com/vercel/vercel-action
-            echo "url=https://example.com" >> $GITHUB_OUTPUT
+            echo "url=https://btxclinicalresearch.com" >> $GITHUB_OUTPUT
           fi
 
       - name: Run E2E tests against preview
@@ -168,7 +168,7 @@ jobs:
       - name: Run smoke tests against production
         run: npx playwright test tests/e2e/broken-links.spec.ts tests/e2e/navigation.spec.ts
         env:
-          PLAYWRIGHT_BASE_URL: https://example.com
+          PLAYWRIGHT_BASE_URL: https://btxclinicalresearch.com
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
