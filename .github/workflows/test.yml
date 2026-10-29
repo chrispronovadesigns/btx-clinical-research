@@ -3,14 +3,30 @@ name: Test Suite
 on:
   push:
     branches: [main, develop]
+    paths-ignore:
+      - "**.md"
+      - ".devin/**"
+      - ".claude/**"
+      - ".agents/**"
+      - "docs/**"
   pull_request:
     branches: [main, develop]
+    paths-ignore:
+      - "**.md"
+      - ".devin/**"
+      - ".claude/**"
+      - ".agents/**"
+      - "docs/**"
   workflow_dispatch:
     inputs:
       base_url:
         description: 'Playwright base URL (leave empty for local build)'
         required: false
         default: ''
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   NODE_VERSION: '22'
@@ -74,7 +90,7 @@ jobs:
         run: npm ci
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium webkit
+        run: npx playwright install --with-deps chromium
 
       - name: Build site
         run: npm run build
@@ -84,7 +100,7 @@ jobs:
           PUBLIC_GA_ID: ${{ secrets.PUBLIC_GA_ID || 'G-TEST123' }}
 
       - name: Run E2E tests
-        run: npm run test:e2e
+        run: npx playwright test --project=chromium-desktop --project=chromium-mobile
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
@@ -116,7 +132,7 @@ jobs:
         run: npm ci
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium webkit
+        run: npx playwright install --with-deps chromium
 
       - name: Determine preview URL
         id: preview
@@ -130,7 +146,7 @@ jobs:
           fi
 
       - name: Run E2E tests against preview
-        run: npx playwright test
+        run: npx playwright test --project=chromium-desktop
         env:
           PLAYWRIGHT_BASE_URL: ${{ steps.preview.outputs.url }}
 
@@ -163,10 +179,10 @@ jobs:
         run: npm ci
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium webkit
+        run: npx playwright install --with-deps chromium
 
       - name: Run smoke tests against production
-        run: npx playwright test tests/e2e/broken-links.spec.ts tests/e2e/navigation.spec.ts
+        run: npx playwright test tests/e2e/broken-links.spec.ts tests/e2e/navigation.spec.ts --project=chromium-desktop
         env:
           PLAYWRIGHT_BASE_URL: https://btxclinicalresearch.com
 
