@@ -50,3 +50,6 @@ tests/e2e/videos/
 
 # Local test env
 .env.test.local
+
+# Generated at build time for sitemap lastmod (scripts/generate-git-dates.mjs)
+.git-file-dates.json
