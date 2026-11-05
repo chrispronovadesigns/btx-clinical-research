@@ -99,6 +99,9 @@ jobs:
           PUBLIC_TURNSTILE_SITE_KEY: ${{ secrets.PUBLIC_TURNSTILE_SITE_KEY || 'test-site' }}
           PUBLIC_GA_ID: ${{ secrets.PUBLIC_GA_ID || 'G-TEST123' }}
 
+      - name: Audit the build (SEO gates)
+        run: npm run audit:build
+
       - name: Run E2E tests
         run: npx playwright test --project=chromium-desktop --project=chromium-mobile
 

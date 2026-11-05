@@ -64,13 +64,50 @@
   "trailingSlash": true,
   "cleanUrls": true,
   "redirects": [
-    { "source": "/wp-content/:path*", "destination": "/", "permanent": true },
-    { "source": "/wp-admin/:path*", "destination": "/", "permanent": true },
-    { "source": "/wp-login.php", "destination": "/", "permanent": true },
-    { "source": "/wp-json/:path*", "destination": "/", "permanent": true },
-    { "source": "/xmlrpc.php", "destination": "/", "permanent": true },
-    { "source": "/feed/", "destination": "/", "permanent": true },
-    { "source": "/feed", "destination": "/", "permanent": true },
-    { "source": "/btx-clinical-research-medical-team/", "destination": "/", "permanent": true }
+    {
+      "source": "/wp-content/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/wp-admin/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/wp-login.php",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/wp-json/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/xmlrpc.php",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/feed/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/feed",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/btx-clinical-research-medical-team/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/btx-clinical-research-medical-team",
+      "destination": "/",
+      "permanent": true
+    }
   ]
 }
