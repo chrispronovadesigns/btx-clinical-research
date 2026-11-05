@@ -5,6 +5,19 @@ import type { SitemapItem } from '@astrojs/sitemap';
 const SITE = 'https://btxclinicalresearch.com';
 const PAGES = path.resolve(process.cwd(), 'src', 'pages');
 
+/**
+ * True when the page's layout call carries the `noindex` prop. A noindexed page in the sitemap sends Google
+ * contradictory signals ("Submitted URL marked noindex"), so the sitemap filter drops them.
+ */
+export function isNoindexPage(url: string): boolean {
+  const rel = new URL(url, SITE).pathname.replace(/^\//, '').replace(/\/$/, '');
+  const candidates = rel
+    ? [path.join(PAGES, `${rel}.astro`), path.join(PAGES, rel, 'index.astro')]
+    : [path.join(PAGES, 'index.astro')];
+  const file = candidates.find((f) => fs.existsSync(f));
+  return file ? /<\w*Layout\b[^>]*\bnoindex\b/.test(fs.readFileSync(file, 'utf8')) : false;
+}
+
 type ChangeFreq = 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
 
 function getPriority(path: string): number {

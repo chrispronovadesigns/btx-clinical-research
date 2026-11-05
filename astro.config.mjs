@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
-import { serializeSitemapItem } from './src/lib/seo/sitemap-config';
+import { serializeSitemapItem, isNoindexPage } from './src/lib/seo/sitemap-config';
 
 export default defineConfig({
   // Astro 5+ strips whitespace between template expressions (`© {year}` newline `{rights}` renders as
@@ -15,7 +15,8 @@ export default defineConfig({
       filter: (page) =>
         !page.includes('/_examples/') &&
         !page.includes('/api/') &&
-        !page.includes('/404'),
+        !page.includes('/404') &&
+        !isNoindexPage(page),
       serialize: serializeSitemapItem,
     }),
   ],

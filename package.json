@@ -16,7 +16,8 @@
     "test:e2e:debug": "playwright test --debug",
     "test:all": "npm run test && npm run test:e2e",
     "test:serve": "npm run build && npx http-server .vercel/output/static -p 9333 -s",
-    "playwright:install": "playwright install chromium webkit"
+    "playwright:install": "playwright install chromium webkit",
+    "audit:build": "node scripts/seo-plan/audit-build.mjs .vercel/output/static"
   },
   "engines": {
     "node": ">=22.23.4"

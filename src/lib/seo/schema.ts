@@ -283,11 +283,12 @@ export function buildProductSchema(data: {
   name: string;
   description: string;
   image?: string;
-  price?: string;
   priceCurrency?: string;
   url?: string;
-  applicationCategory?: string;
-}): SchemaProduct {
+} & (
+  | { applicationCategory?: undefined; price: string }
+  | { applicationCategory: string; price?: string }
+)): SchemaProduct {
   return {
     '@context': 'https://schema.org',
     '@type': data.applicationCategory ? 'SoftwareApplication' : 'Product',
