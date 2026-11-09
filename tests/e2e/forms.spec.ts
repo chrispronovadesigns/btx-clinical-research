@@ -59,11 +59,19 @@ test.describe('Contact Form', () => {
 
     // Inject fake turnstile token so client-side validation passes
     await page.evaluate(() => {
-      const tokenInput = document.createElement('input');
-      tokenInput.type = 'hidden';
-      tokenInput.name = 'cf-turnstile-response';
-      tokenInput.value = 'test-turnstile-token';
-      document.querySelector('form')?.appendChild(tokenInput);
+      const form = document.querySelector('form');
+      const tokenInput = form?.querySelector<HTMLInputElement>('[name="cf-turnstile-response"]');
+      // The real widget renders its own hidden input; fill it instead of
+      // appending a second one — the handler reads the first match.
+      if (tokenInput) {
+        tokenInput.value = 'test-turnstile-token';
+      } else {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'cf-turnstile-response';
+        input.value = 'test-turnstile-token';
+        form?.appendChild(input);
+      }
     });
 
     await page.locator('#contact-submit').click();

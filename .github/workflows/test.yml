@@ -115,6 +115,9 @@ jobs:
     name: E2E Tests (Vercel Preview)
     runs-on: ubuntu-latest
     needs: unit-tests
+    permissions:
+      contents: read
+      deployments: read
     # Only run on PRs or when base_url is explicitly provided
     if: github.event_name == 'pull_request' || inputs.base_url != ''
     steps:
@@ -136,19 +139,37 @@ jobs:
 
       - name: Determine preview URL
         id: preview
+        env:
+          INPUT_BASE_URL: ${{ inputs.base_url }}
+          GH_TOKEN: ${{ github.token }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
-          if [ -n "${{ inputs.base_url }}" ]; then
-            echo "url=${{ inputs.base_url }}" >> $GITHUB_OUTPUT
-          else
-            # For PRs, you can integrate with Vercel's deployment action
-            # See: https://github.com/vercel/vercel-action
-            echo "url=https://btxclinicalresearch.com" >> $GITHUB_OUTPUT
+          if [ -n "$INPUT_BASE_URL" ]; then
+            echo "url=$INPUT_BASE_URL" >> $GITHUB_OUTPUT
+            exit 0
           fi
+          # Each PR gets its own preview deployment; read its real URL off the
+          # GitHub Deployment Vercel reports. The old fallback hit production,
+          # so PRs were testing the live site instead of their own deploy.
+          for i in $(seq 1 60); do
+            DEPLOY_ID=$(gh api "repos/${{ github.repository }}/deployments?sha=$HEAD_SHA&environment=Preview" --jq '.[0].id' 2>/dev/null || true)
+            if [ -n "$DEPLOY_ID" ]; then
+              URL=$(gh api "repos/${{ github.repository }}/deployments/$DEPLOY_ID/statuses" --jq '.[0].environment_url // empty' 2>/dev/null || true)
+              if [ -n "$URL" ]; then
+                echo "url=$URL" >> $GITHUB_OUTPUT
+                exit 0
+              fi
+            fi
+            sleep 10
+          done
+          echo "Timed out waiting for the Vercel preview deployment"
+          exit 1
 
       - name: Run E2E tests against preview
         run: npx playwright test --project=chromium-desktop
         env:
           PLAYWRIGHT_BASE_URL: ${{ steps.preview.outputs.url }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4

@@ -53,3 +53,4 @@ tests/e2e/videos/
 
 # Generated at build time for sitemap lastmod (scripts/generate-git-dates.mjs)
 .git-file-dates.json
+.vercel-bypass-state.json
