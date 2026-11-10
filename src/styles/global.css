@@ -1,6 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+/* Legacy JS config stays the source of truth for brand tokens + the typography
+   plugin until the theme moves into @theme blocks (v4 CSS-first). */
+@config "../../tailwind.config.ts";
 
 /* ── Brand Theme ──
    Values mirror the original Elementor kit ("Local Services Wireframe 1", post 9).
