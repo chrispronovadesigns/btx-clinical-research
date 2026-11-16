@@ -17,6 +17,8 @@
  *   - scaffold placeholder copy ("Question one", "$X,XXX", ... see placeholders.mjs) on an indexable page
  *   - a page that is built AND shadowed by a vercel.json redirect (the sitemap/hreflang then point at a 308)
  *   - LocalBusiness nodes with different @ids on a page, or a LocalBusiness/Organization without an @id
+ *   - a BreadcrumbList item with a relative item URL (GSC reports it as "Invalid URL in field id"), or a
+ *     non-final crumb with no item URL at all
  *   - internal links that resolve to nothing, <img> without alt
  *   - the sitemap listing a noindex/404/unbuilt/redirected page, or omitting an indexable one
  *   - anything in the output shaped like a secret (Square/Stripe/AWS/GitHub tokens, private keys), every file type
@@ -219,6 +221,13 @@ for (const [url, { html }] of pages) {
     warn(url, 'review/aggregateRating markup on the site\'s own business: Google shows no stars for self-published reviews (keep the testimonials as visible content)');
   }
   if (url !== '/' && url !== '/es/' && !nodes.some((n) => typesOf(n).includes('BreadcrumbList'))) warn(url, 'no BreadcrumbList JSON-LD');
+  for (const list of nodes.filter((n) => typesOf(n).includes('BreadcrumbList'))) {
+    (list.itemListElement ?? []).forEach((el, i, arr) => {
+      const item = typeof el?.item === 'string' ? el.item : el?.item?.['@id'];
+      if (item && !item.startsWith('http')) err(url, `BreadcrumbList item "${item}" is a relative URL: item must be absolute or Search Console reports "Invalid URL in field id"`);
+      else if (!item && i < arr.length - 1) err(url, `BreadcrumbList position ${el?.position ?? i + 1} has no item URL (only the final crumb may omit it)`);
+    });
+  }
 
   for (const m of body(html).matchAll(/<img\b[^>]*>/gi)) if (!/\salt(?=[\s=/>])/.test(m[0])) err(url, `<img> without alt: ${m[0].slice(0, 60)}`);
 

@@ -160,6 +160,34 @@ describe('audit-build: business JSON-LD', () => {
     expect(r.status).toBe(0);
     expect(r.out).toContain('no BreadcrumbList JSON-LD');
   });
+
+  it('fails a breadcrumb item with a relative URL, and a non-final crumb with none', () => {
+    const relative = { ...crumbs, itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: '/' },
+      { '@type': 'ListItem', position: 2, name: 'About', item: '/about/' },
+    ] };
+    const r = site([home, { ...about, ld: [business, relative] }]);
+    expect(r.status).toBe(1);
+    expect(r.out).toContain('relative URL');
+
+    const missing = { ...crumbs, itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home' },
+      { '@type': 'ListItem', position: 2, name: 'About', item: `${SITE}/about/` },
+    ] };
+    const r2 = site([home, { ...about, ld: [business, missing] }]);
+    expect(r2.status).toBe(1);
+    expect(r2.out).toContain('has no item URL');
+  });
+
+  it('accepts absolute breadcrumb item urls and a final crumb without one', () => {
+    const ok = { ...crumbs, itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE}/` },
+      { '@type': 'ListItem', position: 2, name: 'About' },
+    ] };
+    const r = site([home, { ...about, ld: [business, ok] }]);
+    expect(r.out).toContain('0 error(s)');
+    expect(r.status).toBe(0);
+  });
 });
 
 describe('audit-build: opening hours', () => {
