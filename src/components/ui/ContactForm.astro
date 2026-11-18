@@ -74,6 +74,7 @@ const hasTurnstile = Boolean(TURNSTILE_SITE_KEY);
     <div class="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-theme="light"></div>
     <input type="hidden" name="cf-turnstile-response" />
   )}
+  {hasTurnstile && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
 
   <div class="honeypot" aria-hidden="true">
     <label for="website">Do not fill this out</label>

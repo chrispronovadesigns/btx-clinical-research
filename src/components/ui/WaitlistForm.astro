@@ -57,6 +57,7 @@ const formId = `waitlist-form-${Math.random().toString(36).slice(2, 9)}`;
     {turnstileSiteKey && (
       <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="dark"></div>
     )}
+    {turnstileSiteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
 
     <div class="waitlist-error hidden text-sm text-red-400 rounded-lg bg-red-400/10 px-4 py-3">
       {errorGeneric}
