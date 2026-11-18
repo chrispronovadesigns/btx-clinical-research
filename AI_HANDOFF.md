@@ -1,6 +1,27 @@
 # AI Handoff — btx-clinical-research
 
-**Last updated:** 2026-10-19 by Claude Code
+**Last updated:** 2026-11-18 by Devin (Turnstile live on the forms)
+
+---
+
+## Turnstile live — 2026-11-18
+
+Cloudflare Turnstile is now active on the contact + waitlist forms. The
+components already rendered widgets and the APIs already called siteverify,
+but `api.js` was never loaded so no token could ever mint — and with the
+secret now set, an absent token returns 400 "Bot verification required".
+The api.js loader sits in `ContactForm.astro`/`WaitlistForm.astro` behind
+the same key check as the widget.
+
+- Widget: "BTX Clinical Research Forms" (managed), domains
+  `btxclinicalresearch.com` + `www.`.
+- `PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY`: Vercel Production
+  only — the sitekey is hostname-locked, so previews/dev can't render the
+  widget and shouldn't carry the secret.
+- Verified live: widget mints on the homepage; /api/contact returns 400 on
+  a missing token instead of sending.
+
+---
 **Convo thread:** /Users/migliorini-macbook/.local/share/devin/cli/summaries/history_25d290c72bc74fbb.md
 **Git HEAD:** see `git log` (design re-port merged to `main` 2026-10-19)
 
